@@ -242,13 +242,6 @@ Blockly.Python['text_trim'] = function(block) {
   return [code, Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
-Blockly.Python['text_print'] = function(block) {
-  // Print statement.
-  var msg = Blockly.Python.valueToCode(block, 'TEXT',
-      Blockly.Python.ORDER_NONE) || '\'\'';
-  return 'print(' + msg + ')\n';
-};
-
 Blockly.Python['text_prompt_ext'] = function(block) {
   // Prompt function.
   var functionName = Blockly.Python.provideFunction_(

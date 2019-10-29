@@ -51,6 +51,8 @@ import re
 import subprocess
 import sys
 import threading
+from pathlib import Path
+import shutil
 
 if sys.version_info[0] == 2:
   import httplib
@@ -162,17 +164,19 @@ class Gen_compressed(threading.Thread):
     self.search_paths = search_paths
     self.bundles = bundles
 
-  def run(self):
+  def run(self,copy=False):
     if (self.bundles.core):
       self.gen_core()
       self.gen_blocks()
 
     if (self.bundles.generators):
-      self.gen_generator("javascript")
       self.gen_generator("python")
-      self.gen_generator("php")
-      self.gen_generator("lua")
-      self.gen_generator("dart")
+    
+    if (self.bundles.copy_dir):
+      file_list = ['blockly_compressed.js','blocks_compressed.js','python_compressed.js']
+      for filename in file_list:
+        shutil.copyfile(filename,str(self.bundles.copy_dir.joinpath(filename)))
+        print("COPIED: " + filename)
 
   def gen_core(self):
     target_filename = "blockly_compressed.js"
@@ -465,6 +469,12 @@ def get_args():
   parser.add_argument('-core', action="store_true", default=False, help="Build core")
   parser.add_argument('-generators', action="store_true", default=False, help="Build the generators")
   parser.add_argument('-langfiles', action="store_true", default=False, help="Build all the language files")
+  parser.add_argument(
+    "--copy_dir",
+    type=Path,
+    default=False,
+    help="Path to the dist directory to copy output files to",
+  )
 
   # New argument style: ./build.py -core
   # Old argument style: ./build.py core
