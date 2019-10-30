@@ -6,7 +6,7 @@
         {
             "label": "Build & copy",
             "type": "shell",
-            "command": "&'C:\\Program Files\\Python27\\python.exe' .\\build.py -core -generators --copy_dir=F:\\Projekty\\reader_python_app\\frontend\\public\\js",
+            "command": "python2 build.py -generators --copy_dir=..\\reader_python_app\\frontend\\public\\js\\",
             "group": {
                 "kind": "build",
                 "isDefault": true
