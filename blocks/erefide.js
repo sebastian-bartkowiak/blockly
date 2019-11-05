@@ -1,5 +1,3 @@
-//TODO - minify this file!
-
 Blockly.defineBlocksWithJsonArray([{
   "type": "set_gpo",
   "message0": "%{BKY_EREFIDE_SET_GPO_1} %1 %{BKY_EREFIDE_SET_GPO_2} %2",

@@ -27,9 +27,10 @@ goog.require('Blockly.Python');
 
 
 Blockly.Python['controls_if'] = function(block) {
+  Blockly.Python.definitions_['import_time'] = import_time;Blockly.Python.definitions_['import_json'] = import_json;Blockly.Python.definitions_['logger_import'] = logger_import;Blockly.Python.definitions_['global_debugLogEntry'] = global_debugLogEntry;
   // If/elseif/else condition.
   var n = 0;
-  var code = '', branchCode, conditionCode;
+  var code = 'debugLogEntry(%1,"blockly.debug.if")\n', branchCode, conditionCode;
   if (Blockly.Python.STATEMENT_PREFIX) {
     // Automatic prefix insertion is switched off for this block.  Add manually.
     code += Blockly.Python.injectId(Blockly.Python.STATEMENT_PREFIX, block);
@@ -58,7 +59,7 @@ Blockly.Python['controls_if'] = function(block) {
     }
     code += 'else:\n' + branchCode;
   }
-  return code;
+  return Blockly.Python.injectId(code, block);
 };
 
 Blockly.Python['controls_ifelse'] = Blockly.Python['controls_if'];

@@ -27,6 +27,7 @@ goog.require('Blockly.Python');
 
 
 Blockly.Python['controls_repeat_ext'] = function(block) {
+  Blockly.Python.definitions_['import_time'] = import_time;Blockly.Python.definitions_['import_json'] = import_json;Blockly.Python.definitions_['logger_import'] = logger_import;Blockly.Python.definitions_['global_debugLogEntry'] = global_debugLogEntry;
   // Repeat n times.
   if (block.getField('TIMES')) {
     // Internal number.
@@ -45,13 +46,14 @@ Blockly.Python['controls_repeat_ext'] = function(block) {
   branch = Blockly.Python.addLoopTrap(branch, block) || Blockly.Python.PASS;
   var loopVar = Blockly.Python.variableDB_.getDistinctName(
       'count', Blockly.Variables.NAME_TYPE);
-  var code = 'for ' + loopVar + ' in range(' + repeats + '):\n' + branch;
+  var code = 'for ' + loopVar + ' in range(' + repeats + '):\n' + Blockly.Python.injectId(`  debugLogEntry(%1,"blockly.debug.loop","no: "+str(${loopVar}))\n`, block) + branch;
   return code;
 };
 
 Blockly.Python['controls_repeat'] = Blockly.Python['controls_repeat_ext'];
 
 Blockly.Python['controls_whileUntil'] = function(block) {
+  Blockly.Python.definitions_['import_time'] = import_time;Blockly.Python.definitions_['import_json'] = import_json;Blockly.Python.definitions_['logger_import'] = logger_import;Blockly.Python.definitions_['global_debugLogEntry'] = global_debugLogEntry;
   // Do while/until loop.
   var until = block.getFieldValue('MODE') == 'UNTIL';
   var argument0 = Blockly.Python.valueToCode(block, 'BOOL',
@@ -62,10 +64,11 @@ Blockly.Python['controls_whileUntil'] = function(block) {
   if (until) {
     argument0 = 'not ' + argument0;
   }
-  return 'while ' + argument0 + ':\n' + branch;
+  return 'while ' + argument0 + ':\n' + Blockly.Python.injectId(`  debugLogEntry(%1,"blockly.debug.loop")\n`, block) + branch;
 };
 
 Blockly.Python['controls_for'] = function(block) {
+  Blockly.Python.definitions_['import_time'] = import_time;Blockly.Python.definitions_['import_json'] = import_json;Blockly.Python.definitions_['logger_import'] = logger_import;Blockly.Python.definitions_['global_debugLogEntry'] = global_debugLogEntry;
   // For loop.
   var variable0 = Blockly.Python.variableDB_.getName(
       block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
@@ -176,11 +179,12 @@ Blockly.Python['controls_for'] = function(block) {
       range = generateUpDownRange(startVar, endVar, increment);
     }
   }
-  code += 'for ' + variable0 + ' in ' + range + ':\n' + branch;
+  code += 'for ' + variable0 + ' in ' + range + ':\n' + Blockly.Python.injectId(`  debugLogEntry(%1,"blockly.debug.loop",{"${variable0}":${variable0}})\n`, block) + branch;
   return code;
 };
 
 Blockly.Python['controls_forEach'] = function(block) {
+  Blockly.Python.definitions_['import_time'] = import_time;Blockly.Python.definitions_['import_json'] = import_json;Blockly.Python.definitions_['logger_import'] = logger_import;Blockly.Python.definitions_['global_debugLogEntry'] = global_debugLogEntry;
   // For each loop.
   var variable0 = Blockly.Python.variableDB_.getName(
       block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
@@ -188,11 +192,12 @@ Blockly.Python['controls_forEach'] = function(block) {
       Blockly.Python.ORDER_RELATIONAL) || '[]';
   var branch = Blockly.Python.statementToCode(block, 'DO');
   branch = Blockly.Python.addLoopTrap(branch, block) || Blockly.Python.PASS;
-  var code = 'for ' + variable0 + ' in ' + argument0 + ':\n' + branch;
+  var code = 'for ' + variable0 + ' in ' + argument0 + ':\n'  + Blockly.Python.injectId(`  debugLogEntry(%1,"blockly.debug.loop",{"${variable0}":${variable0}})\n`, block) + branch;
   return code;
 };
 
 Blockly.Python['controls_flow_statements'] = function(block) {
+  Blockly.Python.definitions_['import_time'] = import_time;Blockly.Python.definitions_['import_json'] = import_json;Blockly.Python.definitions_['logger_import'] = logger_import;Blockly.Python.definitions_['global_debugLogEntry'] = global_debugLogEntry;
   // Flow statements: continue, break.
   var xfix = '';
   if (Blockly.Python.STATEMENT_PREFIX) {
@@ -216,9 +221,9 @@ Blockly.Python['controls_flow_statements'] = function(block) {
   }
   switch (block.getFieldValue('FLOW')) {
     case 'BREAK':
-      return xfix + 'break\n';
+      return xfix + Blockly.Python.injectId('debugLogEntry(%1,"blockly.debug.loop_break")\n', block) + 'break\n';
     case 'CONTINUE':
-      return xfix + 'continue\n';
+      return xfix + Blockly.Python.injectId('debugLogEntry(%1,"blockly.debug.loop_continue")\n', block) + 'continue\n';
   }
   throw Error('Unknown flow statement.');
 };

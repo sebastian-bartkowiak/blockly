@@ -184,6 +184,7 @@ Blockly.Python['lists_getIndex'] = function(block) {
 };
 
 Blockly.Python['lists_setIndex'] = function(block) {
+  Blockly.Python.definitions_['import_time'] = import_time;Blockly.Python.definitions_['import_json'] = import_json;Blockly.Python.definitions_['logger_import'] = logger_import;Blockly.Python.definitions_['global_debugLogEntry'] = global_debugLogEntry;
   // Set element at index.
   // Note: Until February 2013 this block did not have MODE or WHERE inputs.
   var list = Blockly.Python.valueToCode(block, 'LIST',
@@ -208,32 +209,32 @@ Blockly.Python['lists_setIndex'] = function(block) {
   switch (where) {
     case 'FIRST':
       if (mode == 'SET') {
-        return list + '[0] = ' + value + '\n';
+        return list + '[0] = ' + value + '\n' + Blockly.Python.injectId(`debugLogEntry(%1,{"t": "blockly.debug.list_set", "d": ["${list}","#TRANS#blockly.debug.first"]},{"${list}[0]":${list}[0]})\n`, block);
       } else if (mode == 'INSERT') {
-        return list + '.insert(0, ' + value + ')\n';
+        return list + '.insert(0, ' + value + ')\n' + Blockly.Python.injectId(`debugLogEntry(%1,{"t": "blockly.debug.list_insert", "d": ["${list}","#TRANS#blockly.debug.first"]},{"${list}.insert(0)":${list}[0]})\n`, block);
       }
       break;
     case 'LAST':
         if (mode == 'SET') {
-          return list + '[-1] = ' + value + '\n';
+          return list + '[-1] = ' + value + '\n' + Blockly.Python.injectId(`debugLogEntry(%1,{"t": "blockly.debug.list_set", "d": ["${list}","#TRANS#blockly.debug.last"]},{"${list}[-1]":${list}[-1]})\n`, block);
         } else if (mode == 'INSERT') {
-          return list + '.append(' + value + ')\n';
+          return list + '.append(' + value + ')\n' + Blockly.Python.injectId(`debugLogEntry(%1,{"t": "blockly.debug.list_append", "d": ["${list}"]},{"${list}.append()":${list}[-1]})\n`, block);
         }
       break;
     case 'FROM_START':
       var at = Blockly.Python.getAdjustedInt(block, 'AT');
         if (mode == 'SET') {
-          return list + '[' + at + '] = ' + value + '\n';
+          return list + '[' + at + '] = ' + value + '\n' + Blockly.Python.injectId(`debugLogEntry(%1,{"t": "blockly.debug.list_set", "d": ["${list}","${at}"]},{"${list}[${at}]":${list}[${at}]})\n`, block);
         } else if (mode == 'INSERT') {
-          return list + '.insert(' + at + ', ' + value + ')\n';
+          return list + '.insert(' + at + ', ' + value + ')\n' + Blockly.Python.injectId(`debugLogEntry(%1,{"t": "blockly.debug.list_insert", "d": ["${list}","${at}"]},{"${list}.insert(${at})":${list}[${at}]})\n`, block);
         }
       break;
     case 'FROM_END':
       var at = Blockly.Python.getAdjustedInt(block, 'AT', 1, true);
         if (mode == 'SET') {
-          return list + '[' + at + '] = ' + value + '\n';
+          return list + '[' + at + '] = ' + value + '\n' + Blockly.Python.injectId(`debugLogEntry(%1,{"t": "blockly.debug.list_set", "d": ["${list}","${at}"]},{"${list}[${at}]":${list}[${at}]})\n`, block);
         } else if (mode == 'INSERT') {
-          return list + '.insert(' + at + ', ' + value + ')\n';
+          return list + '.insert(' + at + ', ' + value + ')\n' + Blockly.Python.injectId(`debugLogEntry(%1,{"t": "blockly.debug.list_insert", "d": ["${list}","${at}"]},{"${list}.insert(${at})":${list}[${at}]})\n`, block);
         }
       break;
     case 'RANDOM':
@@ -243,10 +244,10 @@ Blockly.Python['lists_setIndex'] = function(block) {
             'tmp_x', Blockly.Variables.NAME_TYPE);
         code += xVar + ' = int(random.random() * len(' + list + '))\n';
         if (mode == 'SET') {
-          code += list + '[' + xVar + '] = ' + value + '\n';
+          code += list + '[' + xVar + '] = ' + value + '\n' + Blockly.Python.injectId(`debugLogEntry(%1,{"t": "blockly.debug.list_set", "d": ["${list}",${xVar}]},{"${list}["+str(${xVar})+"]":${list}[${xVar}]})\n`, block);
           return code;
         } else if (mode == 'INSERT') {
-          code += list + '.insert(' + xVar + ', ' + value + ')\n';
+          code += list + '.insert(' + xVar + ', ' + value + ')\n' + Blockly.Python.injectId(`debugLogEntry(%1,{"t": "blockly.debug.list_insert", "d": ["${list}",${xVar}]},{"${list}.insert("+str(${xVar})+")":${list}[${xVar}]})\n`, block);
           return code;
         }
       break;

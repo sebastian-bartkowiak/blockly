@@ -34,10 +34,11 @@ Blockly.Python['variables_get'] = function(block) {
 };
 
 Blockly.Python['variables_set'] = function(block) {
+  Blockly.Python.definitions_['import_time'] = import_time;Blockly.Python.definitions_['import_json'] = import_json;Blockly.Python.definitions_['logger_import'] = logger_import;Blockly.Python.definitions_['global_debugLogEntry'] = global_debugLogEntry;
   // Variable setter.
   var argument0 = Blockly.Python.valueToCode(block, 'VALUE',
       Blockly.Python.ORDER_NONE) || '0';
   var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('VAR'),
       Blockly.Variables.NAME_TYPE);
-  return varName + ' = ' + argument0 + '\n';
+  return varName + ' = ' + argument0 + '\n' + Blockly.Python.injectId(`debugLogEntry(%1,{"t": "blockly.debug.set_variable", "d": ["${varName}"]},{"${varName}":${argument0}})\n`, block);
 };
