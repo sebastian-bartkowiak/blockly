@@ -94,13 +94,14 @@ Blockly.Python['text_join'] = function(block) {
 };
 
 Blockly.Python['text_append'] = function(block) {
+  Blockly.Python.definitions_['import_time'] = import_time;Blockly.Python.definitions_['import_json'] = import_json;Blockly.Python.definitions_['logger_import'] = logger_import;Blockly.Python.definitions_['global_debugLogEntry'] = global_debugLogEntry;
   // Append to a variable in place.
   var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('VAR'),
       Blockly.Variables.NAME_TYPE);
   var value = Blockly.Python.valueToCode(block, 'TEXT',
       Blockly.Python.ORDER_NONE) || '\'\'';
   return varName + ' = str(' + varName + ') + ' +
-      Blockly.Python.text.forceString_(value) + '\n';
+      Blockly.Python.text.forceString_(value) + '\n' + Blockly.Python.injectId(`debugLogEntry(%1,{"t": "blockly.debug.text_append", "d": ["${varName}"]},{"${varName}":${varName}})\n`, block);
 };
 
 Blockly.Python['text_length'] = function(block) {
