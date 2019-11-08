@@ -167,6 +167,8 @@ class Gen_compressed(threading.Thread):
   def run(self,copy=False):
     if (self.bundles.core):
       self.gen_core()
+
+    if (self.bundles.blocks):
       self.gen_blocks()
 
     if (self.bundles.generators):
@@ -467,6 +469,7 @@ class Arguments:
 def get_args():
   parser = argparse.ArgumentParser(description="Decide which files to build.")
   parser.add_argument('-core', action="store_true", default=False, help="Build core")
+  parser.add_argument('-blocks', action="store_true", default=False, help="Build blocks")
   parser.add_argument('-generators', action="store_true", default=False, help="Build the generators")
   parser.add_argument('-langfiles', action="store_true", default=False, help="Build all the language files")
   parser.add_argument(
@@ -481,9 +484,10 @@ def get_args():
   # Changed as of July 2019.
   try:
     args = parser.parse_args()
-    if (not args.core) and (not args.generators) and (not args.langfiles):
+    if (not args.core) and (not args.blocks) and (not args.generators) and (not args.langfiles):
       # No arguments, use these defaults:
       args.core = True
+      args.blocks = True
       args.generators = True
       args.langfiles = True
   except SystemExit:

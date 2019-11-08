@@ -359,3 +359,12 @@ Blockly.Python['lists_reverse'] = function(block) {
   var code = 'list(reversed(' + list + '))';
   return [code, Blockly.Python.ORDER_FUNCTION_CALL];
 };
+
+Blockly.Python['lists_contains'] = function(block) {
+  // Block for checking if list contains an element.
+  var value_list = Blockly.Python.valueToCode(block, 'LIST', Blockly.Python.ORDER_ATOMIC);
+  var value_element = Blockly.Python.valueToCode(block, 'ELEMENT', Blockly.Python.ORDER_ATOMIC);
+
+  var code = value_element + ' in ' + value_list;
+  return [code, Blockly.Python.ORDER_NONE];
+};

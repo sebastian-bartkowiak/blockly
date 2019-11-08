@@ -124,6 +124,35 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "style": "list_blocks",
     "tooltip": "%{BKY_LISTS_LENGTH_TOOLTIP}",
     "helpUrl": "%{BKY_LISTS_LENGTH_HELPURL}"
+  },
+  // Block for checking if list contains element
+  {
+    "type": "lists_contains",
+    "message0": " %{BKY_LISTS_CONTAINS_1} %1 %{BKY_LISTS_CONTAINS_2} %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "LIST",
+        "check": "Array"
+      },
+      {
+        "type": "input_value",
+        "name": "ELEMENT",
+        "check": [
+          "Boolean",
+          "Number",
+          "String",
+          "erefide_gpio_state_type",
+          "erefide_input_type",
+          "erefide_output_type"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "style": "list_blocks",
+    "tooltip": "%{BKY_LISTS_CONTAINS_TOOLTIP}",
+    "helpUrl": "%{BKY_LISTS_CONTAINS_HELPURL}"
   }
 ]);  // END JSON EXTRACT (Do not delete this comment.)
 

@@ -40,5 +40,5 @@ Blockly.Python['variables_set'] = function(block) {
       Blockly.Python.ORDER_NONE) || '0';
   var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('VAR'),
       Blockly.Variables.NAME_TYPE);
-  return varName + ' = ' + argument0 + '\n' + Blockly.Python.injectId(`debugLogEntry(%1,{"t": "blockly.debug.set_variable", "d": ["${varName}"]},{"${varName}":${argument0}})\n`, block);
+  return varName + ' = ' + argument0 + '\n' + Blockly.Python.injectId(`debugLogEntry(%1,{"t": "blockly.debug.set_variable", "d": ["${varName}"]},{"${varName}":${varName}})\n`, block);
 };
