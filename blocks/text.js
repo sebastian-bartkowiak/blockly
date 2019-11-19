@@ -234,6 +234,30 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "helpUrl": "%{BKY_TEXT_CHARAT_HELPURL}",
     "inputsInline": true,
     "mutator": "text_charAt_mutator"
+  },
+  {
+    "type": "current_time",
+    "message0": "%{BKY_EREFIDE_CURRENT_TIME}",
+    "output": "String",
+    "style": "text_blocks",
+    "tooltip": "%{BKY_EREFIDE_CURRENT_TIME_TOOLTIP}",
+    "helpUrl": "%{BKY_EREFIDE_CURRENT_TIME_HELPURL}"
+  },
+  {
+    "type": "current_date",
+    "message0": "%{BKY_EREFIDE_CURRENT_DATE}",
+    "output": "String",
+    "style": "text_blocks",
+    "tooltip": "%{BKY_EREFIDE_CURRENT_DATE_TOOLTIP}",
+    "helpUrl": "%{BKY_EREFIDE_CURRENT_DATE_HELPURL}"
+  },
+  {
+    "type": "current_datetime",
+    "message0": "%{BKY_EREFIDE_CURRENT_DATETIME}",
+    "output": "String",
+    "style": "text_blocks",
+    "tooltip": "%{BKY_EREFIDE_CURRENT_DATETIME_TOOLTIP}",
+    "helpUrl": "%{BKY_EREFIDE_CURRENT_DATETIME_HELPURL}"
   }
 ]);  // END JSON EXTRACT (Do not delete this comment.)
 

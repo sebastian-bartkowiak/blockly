@@ -60,6 +60,9 @@ Blockly.Themes.Classic.defaultBlockStyles = {
   "hat_blocks": {
     "colourPrimary": "330",
     "hat": "cap"
+  },
+  "erefide_blocks": {
+    "colourPrimary": "0"
   }
 };
 
@@ -90,6 +93,9 @@ Blockly.Themes.Classic.categoryStyles = {
   },
   "variable_dynamic_category": {
     "colour": "310"
+  },
+  "erefide_category": {
+    "colour": "0"
   }
 };
 

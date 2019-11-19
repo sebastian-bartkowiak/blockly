@@ -1,0 +1,37 @@
+{
+  "erefide_blocks": {
+    "colourPrimary": "#4faac6",
+    "colourSecondary": "#dceef4",
+    "colourTertiary": "#3f889e"
+  },
+  "list_blocks": {
+    "colourPrimary": "#708fcc",
+    "colourSecondary": "#e2e9f5",
+    "colourTertiary": "#5a72a3"
+  },
+  "logic_blocks": {
+    "colourPrimary": "#dc7b63",
+    "colourSecondary": "#f8e5e0",
+    "colourTertiary": "#b0624f"
+  },
+  "loop_blocks": {
+    "colourPrimary": "#ffb340",
+    "colourSecondary": "#fff0d9",
+    "colourTertiary": "#cc8f33"
+  },
+  "math_blocks": {
+    "colourPrimary": "#46964b",
+    "colourSecondary": "#daeadb",
+    "colourTertiary": "#38783c"
+  },
+  "text_blocks": {
+    "colourPrimary": "#993d99",
+    "colourSecondary": "#ebd8eb",
+    "colourTertiary": "#7a317a"
+  },
+  "variable_blocks": {
+    "colourPrimary": "#686bac",
+    "colourSecondary": "#e1e1ee",
+    "colourTertiary": "#53568a"
+  }
+}

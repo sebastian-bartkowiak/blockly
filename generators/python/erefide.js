@@ -280,3 +280,21 @@ log.info("autonomous_read init ended -^-")`;
 
   return Blockly.Python.injectId(code,block);
 };
+
+Blockly.Python['program_start'] = function(block) {
+  var statements_code = Blockly.Python.statementToCode(block, 'code');
+
+  Blockly.Python.definitions_['import_time'] = import_time;Blockly.Python.definitions_['import_json'] = import_json;Blockly.Python.definitions_['logger_import'] = logger_import;Blockly.Python.definitions_['global_debugLogEntry'] = global_debugLogEntry;
+  var code = `debugLogEntry(%1,"blockly.debug.program_start")
+${statements_callback}`;
+  return Blockly.Python.injectId(code,block);
+};
+
+Blockly.Python['cron_task'] = function(block) {
+  var number_time = block.getFieldValue('time');
+  var dropdown_selector = block.getFieldValue('selector');
+  var statements_code = Blockly.Python.statementToCode(block, 'code');
+  // TODO: Assemble Python into code variable.
+  var code = '...\n';
+  return code;
+};

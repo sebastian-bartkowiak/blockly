@@ -236,7 +236,26 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "tooltip": "%{BKY_LOGIC_TERNARY_TOOLTIP}",
     "helpUrl": "%{BKY_LOGIC_TERNARY_HELPURL}",
     "extensions": ["logic_ternary"]
-  }
+  },
+  {
+    "type": "sleep",
+    "message0": "%{BKY_EREFIDE_SLEEP}",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "sleep_time",
+        "value": 1,
+        "min": 0.1,
+        "max": 300,
+        "precision": 0.01
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "logic_blocks",
+    "tooltip": "%{BKY_EREFIDE_SLEEP_TOOLTIP}",
+    "helpUrl": "%{BKY_EREFIDE_SLEEP_HELPURL}"
+  },
 ]);  // END JSON EXTRACT (Do not delete this comment.)
 
 Blockly.defineBlocksWithJsonArray([ // Mutator blocks. Do not extract.

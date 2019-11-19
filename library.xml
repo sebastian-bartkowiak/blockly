@@ -1,0 +1,920 @@
+<xml xmlns="https://developers.google.com/blockly/xml"><block type="factory_base" id="d!{#Us0Pn:2t-Fg!t)iP" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"/>
+    <field name="NAME">set_gpo</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_value" id="|sM~u1nUWsVQ?L?d/k`3">
+        <field name="INPUTNAME">pin</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="T1LYZft~G?:kN0rx3{,#">
+            <field name="TEXT">%{BKY_EREFIDE_SET_GPO_1}</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="(@8.+]psfu+04bFQ/QPT"/>
+          <block type="type_other" id="tG]3-ekU0ZEj3N=A^,sr">
+            <field name="TYPE">erefide_output_type</field>
+          </block>
+        </value>
+        <next>
+          <block type="input_value" id="-6@]1coKu*5LLNXQlskh">
+            <field name="INPUTNAME">value</field>
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="k?w*(6.aZ$f!UL7DSoQR">
+                <field name="TEXT">%{BKY_EREFIDE_SET_GPO_2}</field>
+              </block>
+            </statement>
+            <value name="TYPE">
+              <shadow type="type_null" id="`~%{90{s+s_Mc|^Ps8i!"/>
+              <block type="type_other" id="dxT{zpN@Z:t9YfQe79If">
+                <field name="TYPE">erefide_gpio_state_type</field>
+              </block>
+            </value>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="_{=$|+GYcQPIW.kARQ`A" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_SET_GPO_TOOLTIP}</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="jxUwC}JoG9qm01}RLZRF" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_SET_GPO_HELP_URL}</field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="?a!fGz4G}$goJma2Peog"/>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id="]TQc[PpdKbhkDkVIOkov"/>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="L7`sS#b/JYF?=r-E|vDo">
+        <mutation colour="#a55b5b"/>
+        <field name="HUE">0</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="L:3I+e_w5YU%hCe}0QJn" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"/>
+    <field name="NAME">read_gpi</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_value" id="y!;hERr+SFX(n7Rv#BrG">
+        <field name="INPUTNAME">pin</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="RiPX4^vTC7MSHAx?P8)x">
+            <field name="TEXT">%{BKY_EREFIDE_READ_GPI}</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="_[XBd_f{W~As`=}/Dd$n"/>
+          <block type="type_other" id="d*hr]$NhQw}YG+z8v_*`">
+            <field name="TYPE">erefide_input_type</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="A~APhAi)+DVc[3aWTKq@" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_READ_GPI_TOOLTIP}</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="*[Fq(.9oJN%mkn$q2f;X" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_READ_GPI_HELP_URL}</field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="]336NaLoV};P=w0t#M:G"/>
+      <block type="type_other" id=":RtrGJi9,Y3gS3LJ`v/*">
+        <field name="TYPE">erefide_gpio_state_type</field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="6Vi@9`YPC1IV^^_Dbvu,">
+        <mutation colour="#a55b5b"/>
+        <field name="HUE">0</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="g)bD].IW`X$n9TZ:1Sgz" x="10" y="10">
+    <mutation connections="NONE"/>
+    <field name="NAME">gpi_trigger</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">NONE</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="839apL7hL???i:b5#plV">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="=m.D]jO(Maqg|ZffPyEi">
+            <field name="TEXT">%{BKY_EREFIDE_GPI_TRIGGER_1}</field>
+            <next>
+              <block type="field_dropdown" id="HRpnHE4eP:.C`7Vz;.uy">
+                <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"/>
+                <field name="FIELDNAME">pin</field>
+                <field name="USER0">GPI0</field>
+                <field name="CPU0">0</field>
+                <field name="USER1">GPI1</field>
+                <field name="CPU1">1</field>
+                <field name="USER2">GPI2</field>
+                <field name="CPU2">2</field>
+                <field name="USER3">GPI3</field>
+                <field name="CPU3">3</field>
+                <next>
+                  <block type="field_static" id="a%n]|m%TR/40KtMqRAJT">
+                    <field name="TEXT">%{BKY_EREFIDE_GPI_TRIGGER_2}</field>
+                    <next>
+                      <block type="field_dropdown" id="afyqt}!E]M}#_NyjBtD[">
+                        <mutation options="[&quot;image&quot;,&quot;image&quot;,&quot;image&quot;]"/>
+                        <field name="FIELDNAME">edge</field>
+                        <field name="SRC0">/img/rising.png</field>
+                        <field name="WIDTH0">45</field>
+                        <field name="HEIGHT0">45</field>
+                        <field name="ALT0">%{BKY_EREFIDE_RISING_EDGE}</field>
+                        <field name="CPU0">0</field>
+                        <field name="SRC1">/img/falling.png</field>
+                        <field name="WIDTH1">45</field>
+                        <field name="HEIGHT1">45</field>
+                        <field name="ALT1">%{BKY_EREFIDE_FALLING_EDGE}</field>
+                        <field name="CPU1">1</field>
+                        <field name="SRC2">/img/both.png</field>
+                        <field name="WIDTH2">45</field>
+                        <field name="HEIGHT2">45</field>
+                        <field name="ALT2">%{BKY_EREFIDE_BOTH_EDGE}</field>
+                        <field name="CPU2">2</field>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="input_statement" id="@|4gC$.C]HE2ep|cT3Sp">
+            <field name="INPUTNAME">fn</field>
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="o[6N^9tAW_.1u7xFmZ)~">
+                <field name="TEXT">%{BKY_EREFIDE_GPI_TRIGGER_3}</field>
+              </block>
+            </statement>
+            <value name="TYPE">
+              <shadow type="type_null" id="8/R~qvIiS{TP9?q6^,p("/>
+            </value>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="+WQll-^sc{vf5af16!zk">
+        <field name="TEXT">%{BKY_EREFIDE_GPI_TRIGGER_TOOLTIP}</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="Rc?D3N*ELMTosbh^oO]0">
+        <field name="TEXT">%{BKY_EREFIDE_GPI_TRIGGER_HELP_URL}</field>
+      </block>
+    </value>
+	<value name="COLOUR">
+      <block type="colour_hue" id=",I{_[_4V#NSa}({v{7{F">
+        <mutation colour="#a55b5b"/>
+        <field name="HUE">0</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="AUOXi6D{!MnR:8!).;mO" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"/>
+    <field name="NAME">gpi_picker</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="$/d3CvsS=jW;r#iw6Z{e">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_dropdown" id=":hH()j%h50bWM`Ozh6j3">
+            <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"/>
+            <field name="FIELDNAME">pin</field>
+            <field name="USER0">GPI0</field>
+            <field name="CPU0">0</field>
+            <field name="USER1">GPI1</field>
+            <field name="CPU1">1</field>
+            <field name="USER2">GPI2</field>
+            <field name="CPU2">2</field>
+            <field name="USER3">GPI3</field>
+            <field name="CPU3">3</field>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="~}f^-by4)sfJ3;562xQV" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_GPI_PICKER_TOOLTIP}</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="r22i%mMa_({7X:T4zOX}" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_GPI_PICKER_HELP_URL}</field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="Mm+$(z/MnS$.d#*p#nt|"/>
+      <block type="type_other" id="y}[mGsQqN#+uO6ZzzY$8">
+        <field name="TYPE">erefide_input_type</field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id=",I{_[_4V#NSa}({v{9{F">
+        <mutation colour="#a55b5b"/>
+        <field name="HUE">0</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="AUOXi6D{!MnR:8!).;mO" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"/>
+    <field name="NAME">gpo_picker</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="$/d3CvsS=jW;r#iw6Z{e">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_dropdown" id=":hH()j%h50bWM`Ozh6j3">
+            <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"/>
+            <field name="FIELDNAME">pin</field>
+            <field name="USER0">GPO0</field>
+            <field name="CPU0">0</field>
+            <field name="USER1">GPO1</field>
+            <field name="CPU1">1</field>
+            <field name="USER2">GPO2</field>
+            <field name="CPU2">2</field>
+            <field name="USER3">GPO3</field>
+            <field name="CPU3">3</field>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="~}f^-by4)sfJ3;562xQV" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_GPO_PICKER_TOOLTIP}</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="r22i%mMa_({7X:T4zOX}" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_GPO_PICKER_HELP_URL}</field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="!h(yS:!PLcY{E,A(x/KW"/>
+      <block type="type_other" id="e~cC0`2:`9eqQCuD!-Di">
+        <field name="TYPE">erefide_output_type</field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id=",I{_[_4V#NSa}({v{9{F">
+        <mutation colour="#a55b5b"/>
+        <field name="HUE">0</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="gzu-?K.Qp#[HB#Q9czHJ" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"/>
+    <field name="NAME">gpio_state_picker</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="z|!zka7JSb3=1TKlJ4LP">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_dropdown" id="0Z{JfF+j$9m4TK9v%v,{">
+            <mutation options="[&quot;text&quot;,&quot;text&quot;]"/>
+            <field name="FIELDNAME">state</field>
+            <field name="USER0">%{BKY_EREFIDE_STATE_LOW}</field>
+            <field name="CPU0">False</field>
+            <field name="USER1">%{BKY_EREFIDE_STATE_HIGH}</field>
+            <field name="CPU1">True</field>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="Z^FHlgVB_l6O+Bwa~Svw" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_GPIO_STATE_PICKER_TOOLTIP}</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id=":L,_w1j(by,-MYeuP_=G" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_GPIO_STATE_PICKER_HELP_URL}</field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="jbTW/}8Yb6$2;.RfNQ:i"/>
+      <block type="type_other" id="IsKN)-]|?^-w2xM4Mi8*">
+        <field name="TYPE">erefide_gpio_state_type</field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="%Jf3L4MG#@aQbXR(Xw)G">
+        <mutation colour="#a55b5b"/>
+        <field name="HUE">0</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="~$No0;~Caw@CU;M,,agA" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"/>
+    <field name="NAME">sleep</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="].n/hy+!EbMA_Z}p!i7i">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="qhS]NzScH0Cs?`N$^x1,">
+            <field name="TEXT">%{BKY_EREFIDE_SLEEP_1}</field>
+            <next>
+              <block type="field_number" id="4-.40/.vxFK6/tYoUxic">
+                <field name="VALUE">1</field>
+                <field name="FIELDNAME">sleep_time</field>
+                <field name="MIN">0.1</field>
+                <field name="MAX">300</field>
+                <field name="PRECISION">0.01</field>
+                <next>
+                  <block type="field_static" id=",jMu]oxaff0Ym+,/p3mh">
+                    <field name="TEXT">%{BKY_EREFIDE_SLEEP_2}</field>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="-7BDdjb|pB(-lX`KaBfO" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_SLEEP_TOOLTIP}</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="8qby5HWRx~,qSyWC^^[~" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_SLEEP_HELP_URL}</field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="KHc$*jf]w}nNpQ3Qfqh?"/>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id="!Mu*LDvmdNy|b[1^S~_S"/>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="E~^=i1zL{g%w9)4HvTtC">
+        <mutation colour="#5b80a5"/>
+        <field name="HUE">210</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="d{sAntWiVm!3;1B@8QHG" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"/>
+    <field name="NAME">beep_buzzer</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id=":4$3Sw[zVIQntnW7-Hpl">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="zE#[^bcYY_=ffVQLiSc2">
+            <field name="TEXT">%{BKY_EREFIDE_BUZZER_1}</field>
+            <next>
+              <block type="field_number" id="yFSIq}O^f8k-dc?NBQ4N">
+                <field name="VALUE">0.25</field>
+                <field name="FIELDNAME">time</field>
+                <field name="MIN">0.1</field>
+                <field name="MAX">60</field>
+                <field name="PRECISION">0.01</field>
+                <next>
+                  <block type="field_static" id="{^`E7zo?VDO?P5#6Jls)">
+                    <field name="TEXT">%{BKY_EREFIDE_BUZZER_2}</field>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="DTtO@,*cR3v+UWR_6+g:" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_BUZZER_TOOLTIP}</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id=":BJ#1E?0slZYZ$)-55G_" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_BUZZER_HELP_URL}</field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="n)l[0b7MD+SC:m8!~[F5"/>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id="SX$[g*,ZF:KW4gL*Cc5z"/>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id=",TNA)T#{C%S8;NZ-{kTJ">
+        <mutation colour="#a55b5b"/>
+        <field name="HUE">0</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="/?24_n]8P*QFHvzF{O?(" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"/>
+    <field name="NAME">post_data</field>
+    <field name="INLINE">EXT</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_value" id="o*(l:uP/D%Q7V+YCHNIe">
+        <field name="INPUTNAME">data</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="f_0%Lh8U8z7zvjocd!|d">
+            <field name="TEXT">%{BKY_EREFIDE_POST_DATA_1}</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="zojD{-oyxC.?W{bw[m8."/>
+          <block type="type_null" id="Er{15oBG({%i;RCeSp`R"/>
+        </value>
+        <next>
+          <block type="input_value" id="OSS~e#W1(4KkB,g7YIV)">
+            <field name="INPUTNAME">url</field>
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="NA*ZRMxWBRJE,37GOkk)">
+                <field name="TEXT">%{BKY_EREFIDE_POST_DATA_2}</field>
+              </block>
+            </statement>
+            <value name="TYPE">
+              <shadow type="type_null" id="V+2%^*tNc^Olc.rfJz:t"/>
+              <block type="type_string" id="Pk1#oEQ$Aey,A1vH7ob:"/>
+            </value>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="UQpEvO-Ft_nP`KpwWU}|" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_POST_DATA_TOOLTIP}</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="S7:OOC-aiiVpmQ,^W3G*" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_POST_DATA_HELP_URL}</field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="ieCYM9Z6k=EqH+@8xxf*"/>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id="YgaE*7^h+Bw@H+pqiqmA"/>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="eZPKwbF{O7*A06Sd_BmS">
+        <mutation colour="#a55b5b"/>
+        <field name="HUE">0</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="cZa6T`f}sKBrH^Q76/~I" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"/>
+    <field name="NAME">current_time</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="PVm@lU$f=ei(i0W=cR4;">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="_h*xwQg,ie=E9S]T.v~X">
+            <field name="TEXT">%{BKY_EREFIDE_CURRENT_TIME}</field>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="U6zGfP{Rf8=RpgzTaQnp" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_CURRENT_TIME_TOOLTIP}</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="X(eurm]1KM)?NolIZf?." deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_CURRENT_TIME_HELP_URL}</field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="A1.a|_x_jgM5`*]$2Ev["/>
+      <block type="type_string" id="K`[S8]CAK{blJU/frbJw"/>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="8Zv5y~2Dw#|nY7(:5DMQ">
+        <mutation colour="#5ba58c"/>
+        <field name="HUE">160</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="cZa6T`f}sKBrH^Q76/~I" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"/>
+    <field name="NAME">current_date</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="PVm@lU$f=ei(i0W=cR4;">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="_h*xwQg,ie=E9S]T.v~X">
+            <field name="TEXT">%{BKY_EREFIDE_CURRENT_DATE}</field>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="U6zGfP{Rf8=RpgzTaQnp" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_CURRENT_DATE_TOOLTIP}</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="X(eurm]1KM)?NolIZf?." deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_CURRENT_DATE_HELP_URL}</field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id=":d#yB8kO3gYiYk},xhL."/>
+      <block type="type_string" id="K`[S8]CAK{blJU/frbJw"/>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="8Zv5y~2Dw#|nY7(:5DMQ">
+        <mutation colour="#5ba58c"/>
+        <field name="HUE">160</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="cZa6T`f}sKBrH^Q76/~I" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"/>
+    <field name="NAME">current_datetime</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="PVm@lU$f=ei(i0W=cR4;">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="_h*xwQg,ie=E9S]T.v~X">
+            <field name="TEXT">%{BKY_EREFIDE_CURRENT_DATETIME}</field>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="U6zGfP{Rf8=RpgzTaQnp" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_CURRENT_DATETIME_TOOLTIP}</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="X(eurm]1KM)?NolIZf?." deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_CURRENT_DATETIME_HELP_URL}</field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="kBILRCRK3C]5w`Rq-]h4"/>
+      <block type="type_string" id="K`[S8]CAK{blJU/frbJw"/>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="8Zv5y~2Dw#|nY7(:5DMQ">
+        <mutation colour="#5ba58c"/>
+        <field name="HUE">160</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="Z.j1DZ_*pRWsMX[HfZQ9" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"/>
+    <field name="NAME">simple_read</field>
+    <field name="INLINE">EXT</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="M|CmRLGYeo^H.o%!zV{|">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="Zu[dyNxyGv6]xxIn.IZ2">
+            <field name="TEXT">%{BKY_EREFIDE_SIMPLE_READ_1}</field>
+            <next>
+              <block type="field_number" id="?jN7=qyh3Q=KTzrSFKs|">
+                <field name="VALUE">1</field>
+                <field name="FIELDNAME">time</field>
+                <field name="MIN">0.5</field>
+                <field name="MAX">30</field>
+                <field name="PRECISION">0.1</field>
+                <next>
+                  <block type="field_static" id="UV$LRIf$0*}S;H6zCiT/">
+                    <field name="TEXT">%{BKY_EREFIDE_SIMPLE_READ_2}</field>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="input_dummy" id="`qS=XXjzyea]Fs),T$l/">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="`ic3e4gMFH3FQbL}L@c4">
+                <field name="TEXT">%{BKY_EREFIDE_SIMPLE_READ_3}</field>
+              </block>
+            </statement>
+            <next>
+              <block type="input_dummy" id="FIg$gv,[^a,r9Pnya3wT">
+                <field name="ALIGN">LEFT</field>
+                <statement name="FIELDS">
+                  <block type="field_checkbox" id="cD]2lZg`M:w2@3m2^7A=">
+                    <field name="CHECKED">TRUE</field>
+                    <field name="FIELDNAME">ant_1</field>
+                    <next>
+                      <block type="field_static" id="JiUQwU*[GQzq!1oG_4Y[">
+                        <field name="TEXT">ANT1</field>
+                        <next>
+                          <block type="field_checkbox" id="%9W0,PkUP:azwQHU!43#">
+                            <field name="CHECKED">TRUE</field>
+                            <field name="FIELDNAME">ant_2</field>
+                            <next>
+                              <block type="field_static" id="BJsPeKun+*X8BGO?Q{%H">
+                                <field name="TEXT">ANT2</field>
+                                <next>
+                                  <block type="field_checkbox" id=",${.a(@{jcdwbGw;f;AV">
+                                    <field name="CHECKED">TRUE</field>
+                                    <field name="FIELDNAME">ant_3</field>
+                                    <next>
+                                      <block type="field_static" id="+S9b68}=xPgWKMDjxl]@">
+                                        <field name="TEXT">ANT3</field>
+                                        <next>
+                                          <block type="field_checkbox" id="Qd:IZk$phZaw+s)J1vL#">
+                                            <field name="CHECKED">TRUE</field>
+                                            <field name="FIELDNAME">ant_4</field>
+                                            <next>
+                                              <block type="field_static" id="vkt+}XLB`hr+KPz/~$#=">
+                                                <field name="TEXT">ANT4</field>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="@vGqu%S+`phcV(MT-75M" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_SIMPLE_READ_TOOLTIP}</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="U386t%C91a=DJrDkDmCP" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_SIMPLE_READ_HELP_URL}</field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="JL37,Y-ugL$0kBdDL;aj"/>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="mQ5%.4X7~W$#^Ou1#P6K">
+        <mutation colour="#a55b5b"/>
+        <field name="HUE">0</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="N8SqLw7{w/=G_c1wn#7A" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="NONE"/>
+    <field name="NAME">autonomous_read</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">NONE</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="^,pncIL1=c$`zleRW*Gu">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="03GCOG;$N@SMc1,o,B^3">
+            <field name="TEXT">%{BKY_EREFIDE_AUTONOMOUS_READ_1}</field>
+          </block>
+        </statement>
+        <next>
+          <block type="input_dummy" id="un:)p;AL:Rw1gg@,E;o|">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_checkbox" id="rmZ1_%b-J||LP6@[W;,o">
+                <field name="CHECKED">TRUE</field>
+                <field name="FIELDNAME">ant_1</field>
+                <next>
+                  <block type="field_static" id="ZIE%ks:D8%5~U^j-BnL!">
+                    <field name="TEXT">ANT1</field>
+                    <next>
+                      <block type="field_checkbox" id="F9RL=exo`Zj34L`zG{LM">
+                        <field name="CHECKED">TRUE</field>
+                        <field name="FIELDNAME">ant_2</field>
+                        <next>
+                          <block type="field_static" id="OIq6aq13)Z?^;+)ZCAlf">
+                            <field name="TEXT">ANT2</field>
+                            <next>
+                              <block type="field_checkbox" id="adMh/$fGB5:9?)hbN#mR">
+                                <field name="CHECKED">TRUE</field>
+                                <field name="FIELDNAME">ant_3</field>
+                                <next>
+                                  <block type="field_static" id="*@rVm+;IqqpB85xfce:X">
+                                    <field name="TEXT">ANT3</field>
+                                    <next>
+                                      <block type="field_checkbox" id="M}o3,4hrYDAn2P:Av?;8">
+                                        <field name="CHECKED">TRUE</field>
+                                        <field name="FIELDNAME">ant_4</field>
+                                        <next>
+                                          <block type="field_static" id=".cvTlg_{?z/A+RPpvh$F">
+                                            <field name="TEXT">ANT4</field>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <next>
+              <block type="input_dummy" id="_(#`e.~B$!dyUXMy/B_*">
+                <field name="ALIGN">LEFT</field>
+                <statement name="FIELDS">
+                  <block type="field_static" id="Ix+xEdTwJW,tr7tVOU}+">
+                    <field name="TEXT">%{BKY_EREFIDE_AUTONOMOUS_READ_2}</field>
+                    <next>
+                      <block type="field_variable" id="6rx|8u^BQ#Dp+1}lcl=h">
+                        <field name="TEXT">TAGS</field>
+                        <field name="FIELDNAME">read_tags</field>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+                <next>
+                  <block type="input_dummy" id="m{axqx9)s*0c]F:sHJxv">
+                    <field name="ALIGN">LEFT</field>
+                    <statement name="FIELDS">
+                      <block type="field_static" id="HMAtFkItxIW_HBEtlu!C">
+                        <field name="TEXT">%{BKY_EREFIDE_AUTONOMOUS_READ_3}</field>
+                      </block>
+                    </statement>
+                    <next>
+                      <block type="input_statement" id="iy$?o?2rJJwUu8,5T5,s">
+                        <field name="INPUTNAME">callback</field>
+                        <field name="ALIGN">LEFT</field>
+                        <value name="TYPE">
+                          <shadow type="type_null" id="8ljXa3cchv_)/msTctLi"/>
+                        </value>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="!z,`AakK+@OJL:=rL$DH" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_AUTONOMOUS_READ_TOOLTIP}</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="5|3N:qRQR2A+HM},!-0T" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_AUTONOMOUS_READ_HELP_URL}</field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="LVd$@%uUm(kO$%=[3~Mn">
+        <mutation colour="#a55b5b"/>
+        <field name="HUE">0</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="!htjT`G3R,g2a.f9DtB{" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="NONE"/>
+    <field name="NAME">program_start</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">NONE</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="^@^RWYu/{$30L#OtG0)D">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="20`Wz5l0L3T3tE)Z74NU">
+            <field name="TEXT">%{BKY_EREFIDE_PROGRAM_START}</field>
+          </block>
+        </statement>
+        <next>
+          <block type="input_statement" id="D!H`9gv;8*1DxDgyo~bw">
+            <field name="INPUTNAME">code</field>
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="]~8]y#xd+8Y[3#cz]~e)">
+                <field name="TEXT">do:</field>
+              </block>
+            </statement>
+            <value name="TYPE">
+              <shadow type="type_null" id="pkj.M4UgY$=lFa`mxq=d"/>
+            </value>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="l.zXOVuD~wH*q.1!P5AA" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_PROGRAM_START_TOOLTIP}</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="1RO9V^a:(3A}U*MKO/KI" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_PROGRAM_START_HELP_URL}</field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="8TbA4[8[)y^X{]vax29Z">
+        <mutation colour="#a55b5b"/>
+        <field name="HUE">0</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="[S/k6HJ7i=Ck(ijmY8!/" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="NONE"/>
+    <field name="NAME">cron_task</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">NONE</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="BEBuT.%`yy(nGG_tZrnu">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="p3/Awntbpg|-T-(?xRe]">
+            <field name="TEXT">%{BKY_EREFIDE_CRON_TASK}</field>
+            <next>
+              <block type="field_number" id="p{Z9(S;RbHGk*p!:=Ipr">
+                <field name="VALUE">5</field>
+                <field name="FIELDNAME">time</field>
+                <field name="MIN">1</field>
+                <field name="MAX">300</field>
+                <field name="PRECISION">0</field>
+                <next>
+                  <block type="field_dropdown" id="t1DPE~AT_i5W3wbjHky;">
+                    <mutation options="[&quot;text&quot;,&quot;text&quot;]"/>
+                    <field name="FIELDNAME">selector</field>
+                    <field name="USER0">%{BKY_EREFIDE_MINUTES}</field>
+                    <field name="CPU0">minutes</field>
+                    <field name="USER1">%{BKY_EREFIDE_HOURS}</field>
+                    <field name="CPU1">hours</field>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="input_statement" id="ev!oW3.{XZ@+O6rFQ8}$">
+            <field name="INPUTNAME">code</field>
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="(93)wM?vAdiymJJh^L}p">
+                <field name="TEXT">do:</field>
+              </block>
+            </statement>
+            <value name="TYPE">
+              <shadow type="type_null" id="~^A@u|OjvPcB?JQ~gZe:"/>
+            </value>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="9Y?{n*XgdmF~pF1WJ/tq" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_CRON_TASK_TOOLTIP}</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="rq^.q=i[@NuL/:pIMrI5" deletable="false" movable="false">
+        <field name="TEXT">%{BKY_EREFIDE_CRON_HELP_URL}</field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="c=yMonZpOGG^*W(LDeP6">
+        <mutation colour="#a55b5b"/>
+        <field name="HUE">0</field>
+      </block>
+    </value>
+  </block></xml>

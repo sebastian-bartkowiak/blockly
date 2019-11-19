@@ -128,7 +128,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
   // Block for checking if list contains element
   {
     "type": "lists_contains",
-    "message0": " %{BKY_LISTS_CONTAINS_1} %1 %{BKY_LISTS_CONTAINS_2} %2",
+    "message0": " %{BKY_LISTS_CONTAINS}",
     "args0": [
       {
         "type": "input_value",

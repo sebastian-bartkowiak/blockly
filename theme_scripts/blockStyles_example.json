@@ -1,11 +1,9 @@
 {
-  "colour":"#A5745B",
-  "lists":"260",
-  "logic":"210",
-  "loops":"120",
-  "math":"230",
-  "procedure":"290",
-  "text":"160",
-  "variables":"310",
-  "variables_dynamic":"310"
+  "list_blocks":"#708FCC",
+  "logic_blocks":"#DC7B63",
+  "loop_blocks":"#FFB340",
+  "math_blocks":"#46964B",
+  "text_blocks":"#993D99",
+  "variable_blocks":"#686BAC",
+  "erefide_blocks":"#4FAAC6"
 }
