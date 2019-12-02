@@ -94,7 +94,7 @@ Blockly.Python['text_join'] = function(block) {
 };
 
 Blockly.Python['text_append'] = function(block) {
-  Blockly.Python.definitions_['import_time'] = import_time;Blockly.Python.definitions_['import_json'] = import_json;Blockly.Python.definitions_['logger_import'] = logger_import;Blockly.Python.definitions_['global_debugLogEntry'] = global_debugLogEntry;
+  importDebugLogDependancies();
   // Append to a variable in place.
   var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('VAR'),
       Blockly.Variables.NAME_TYPE);

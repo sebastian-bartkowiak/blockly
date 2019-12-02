@@ -280,10 +280,10 @@ Blockly.defineBlocksWithJsonArray([{
     {
       "type": "field_number",
       "name": "power",
-      "value": 75,
-      "min": 1,
-      "max": 100,
-      "precision": 1
+      "value": 20,
+      "min": -10,
+      "max": 31.5,
+      "precision": 0.1
     }
   ],
   "inputsInline": false,
@@ -328,10 +328,10 @@ Blockly.defineBlocksWithJsonArray([{
     {
       "type": "field_number",
       "name": "power",
-      "value": 75,
-      "min": 1,
-      "max": 100,
-      "precision": 1
+      "value": 20,
+      "min": -10,
+      "max": 31.5,
+      "precision": 0.1
     },
     {
       "type": "input_dummy"

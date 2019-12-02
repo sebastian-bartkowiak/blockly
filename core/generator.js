@@ -132,6 +132,69 @@ Blockly.Generator.prototype.workspaceToCode = function(workspace) {
   return code;
 };
 
+/**
+ * Generate code for all blocks in the workspace to the specified language.
+ * @param {Blockly.Workspace} workspace Workspace to generate code from.
+ * @param {Array} order Array of blocks types strings determining order of code generation. Code is generated first based on this array, and then remaining blocks are generated as usual.
+ * @return {string} Generated code.
+ */
+Blockly.Generator.prototype.workspaceToCodeOrdered = function(workspace,order) {
+  if (!workspace) {
+    // Backwards compatibility from before there could be multiple workspaces.
+    console.warn('No workspace specified in workspaceToCode call.  Guessing.');
+    workspace = Blockly.getMainWorkspace();
+  }
+  var code = [];
+  this.init(workspace);
+  var all_blocks = workspace.getTopBlocks(true);
+  var blocks = [];
+  order.push('*');
+  for (var j in order) {
+    if (order[j] !== '*') {
+      if (!Array.isArray(order[j])) {
+        order[j] = [order[j]];
+      }
+      // Get blocks matching current block type.
+      blocks = all_blocks.filter((b)=>order[j].indexOf(b.type) !== -1);
+      // Remove those blocks from list of all blocks to be processed.
+      all_blocks = all_blocks.filter((b)=>order[j].indexOf(b.type) === -1);
+    }
+    else{
+      blocks = all_blocks;
+    }
+    for (var i = 0, block; block = blocks[i]; i++) {
+      var line = this.blockToCode(block);
+      if (Array.isArray(line)) {
+        // Value blocks return tuples of code and operator order.
+        // Top-level blocks don't care about operator order.
+        line = line[0];
+      }
+      if (line) {
+        if (block.outputConnection) {
+          // This block is a naked value.  Ask the language's code generator if
+          // it wants to append a semicolon, or something.
+          line = this.scrubNakedValue(line);
+          if (this.STATEMENT_PREFIX && !block.suppressPrefixSuffix) {
+            line = this.injectId(this.STATEMENT_PREFIX, block) + line;
+          }
+          if (this.STATEMENT_SUFFIX && !block.suppressPrefixSuffix) {
+            line = line + this.injectId(this.STATEMENT_SUFFIX, block);
+          }
+        }
+        code.push(line);
+      }
+    }
+  }
+  
+  code = code.join('\n');  // Blank line between each section.
+  code = this.finish(code);
+  // Final scrubbing of whitespace.
+  code = code.replace(/^\s+\n/, '');
+  code = code.replace(/\n\s+$/, '\n');
+  code = code.replace(/[ \t]+\n/g, '\n');
+  return code;
+};
+
 // The following are some helpful functions which can be used by multiple
 // languages.
 

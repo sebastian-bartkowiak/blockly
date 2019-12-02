@@ -43,7 +43,7 @@ import sys
 
 HSV_SATURATION = .45
 BRIGHTNESS_VAL = .65 * 255
-LIGHT_FACTOR = .8
+LIGHT_FACTOR = .6
 DARK_FACTOR = .2
 
 #Change HSV (Hue Saturation Value) to RGB

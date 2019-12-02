@@ -200,7 +200,17 @@ Blockly.Python.finish = function(code) {
   delete Blockly.Python.functionNames_;
   Blockly.Python.variableDB_.reset();
   var allDefs = imports.join('\n') + '\n\n' + definitions.join('\n\n');
-  return allDefs.replace(/\n\n+/g, '\n\n').replace(/\n*$/, '\n\n\n') + code;
+  var ret = allDefs.replace(/\n\n+/g, '\n\n').replace(/\n*$/, '\n\n\n') + code;
+  // Wrap whole code in try ... except clause for logging purposes.
+  ret = Blockly.Python.prefixLines(ret,'  ');
+  ret = `from readerapp import logger
+log = logger.Logger('inteligent').getInstance()
+log.info("--- Intelligent script started ---")
+try:
+${ret}\
+except:
+  log.exception("Exception occured")`;
+  return ret;
 };
 
 /**

@@ -27,7 +27,7 @@ goog.require('Blockly.Python');
 
 
 Blockly.Python['controls_repeat_ext'] = function(block) {
-  Blockly.Python.definitions_['import_time'] = import_time;Blockly.Python.definitions_['import_json'] = import_json;Blockly.Python.definitions_['logger_import'] = logger_import;Blockly.Python.definitions_['global_debugLogEntry'] = global_debugLogEntry;
+  importDebugLogDependancies();
   // Repeat n times.
   if (block.getField('TIMES')) {
     // Internal number.
@@ -53,7 +53,7 @@ Blockly.Python['controls_repeat_ext'] = function(block) {
 Blockly.Python['controls_repeat'] = Blockly.Python['controls_repeat_ext'];
 
 Blockly.Python['controls_whileUntil'] = function(block) {
-  Blockly.Python.definitions_['import_time'] = import_time;Blockly.Python.definitions_['import_json'] = import_json;Blockly.Python.definitions_['logger_import'] = logger_import;Blockly.Python.definitions_['global_debugLogEntry'] = global_debugLogEntry;
+  importDebugLogDependancies();
   // Do while/until loop.
   var until = block.getFieldValue('MODE') == 'UNTIL';
   var argument0 = Blockly.Python.valueToCode(block, 'BOOL',
@@ -68,7 +68,7 @@ Blockly.Python['controls_whileUntil'] = function(block) {
 };
 
 Blockly.Python['controls_for'] = function(block) {
-  Blockly.Python.definitions_['import_time'] = import_time;Blockly.Python.definitions_['import_json'] = import_json;Blockly.Python.definitions_['logger_import'] = logger_import;Blockly.Python.definitions_['global_debugLogEntry'] = global_debugLogEntry;
+  importDebugLogDependancies();
   // For loop.
   var variable0 = Blockly.Python.variableDB_.getName(
       block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
@@ -184,7 +184,7 @@ Blockly.Python['controls_for'] = function(block) {
 };
 
 Blockly.Python['controls_forEach'] = function(block) {
-  Blockly.Python.definitions_['import_time'] = import_time;Blockly.Python.definitions_['import_json'] = import_json;Blockly.Python.definitions_['logger_import'] = logger_import;Blockly.Python.definitions_['global_debugLogEntry'] = global_debugLogEntry;
+  importDebugLogDependancies();
   // For each loop.
   var variable0 = Blockly.Python.variableDB_.getName(
       block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
@@ -197,7 +197,7 @@ Blockly.Python['controls_forEach'] = function(block) {
 };
 
 Blockly.Python['controls_flow_statements'] = function(block) {
-  Blockly.Python.definitions_['import_time'] = import_time;Blockly.Python.definitions_['import_json'] = import_json;Blockly.Python.definitions_['logger_import'] = logger_import;Blockly.Python.definitions_['global_debugLogEntry'] = global_debugLogEntry;
+  importDebugLogDependancies();
   // Flow statements: continue, break.
   var xfix = '';
   if (Blockly.Python.STATEMENT_PREFIX) {

@@ -184,7 +184,7 @@ Blockly.Python['lists_getIndex'] = function(block) {
 };
 
 Blockly.Python['lists_setIndex'] = function(block) {
-  Blockly.Python.definitions_['import_time'] = import_time;Blockly.Python.definitions_['import_json'] = import_json;Blockly.Python.definitions_['logger_import'] = logger_import;Blockly.Python.definitions_['global_debugLogEntry'] = global_debugLogEntry;
+  importDebugLogDependancies();
   // Set element at index.
   // Note: Until February 2013 this block did not have MODE or WHERE inputs.
   var list = Blockly.Python.valueToCode(block, 'LIST',
