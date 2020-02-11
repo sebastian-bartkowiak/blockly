@@ -55,19 +55,20 @@ Blockly.Python.injectId(`%1`, block)
 
 Blockly.Python.addReservedWords('logger,log,inteligent');
 
-Blockly.Python.addReservedWords('mercury,reader,simple_read,ant,readTime,power,max_power,power_object,antenna,read_epcs_data,ret,list,map,t');
+Blockly.Python.addReservedWords('mercury,reader,simple_read,ant,readTime,power,max_power,power_object,antenna,read_epcs_data,ret,list,map,t,subprocess');
 const simple_read =
 `${divider_comment_start.replace('%%','simple_read')}
 import mercury
+import subprocess
 reader = mercury.Reader("tmr:///dev/ttyS1")
 def simple_read(ant,readTime,power):
   log.info("simple_read function called")
   reader.set_read_plan(ant, "GEN2")
-  reader.set_region("open")
-  max_power = reader.get_power_range()[1]
+  reader.set_region(str(subprocess.check_output(['uci','get','reader.main.region']))[2:-3])
+  reader.set_gen2_q(int(str(subprocess.check_output(['uci','get','reader.main.Q_dynamic']))[2:-3]),int(str(subprocess.check_output(['uci','get','reader.main.Q_value']))[2:-3]))
   power_object = []
   for antenna in ant:
-    power_object.append((antenna,(max_power/100.0)*power))
+    power_object.append((antenna,power))
   reader.set_read_powers(power_object)
   read_epcs_data = reader.read(readTime)
   ret = list(map(lambda t: t.epc.decode('utf-8'), read_epcs_data))
@@ -132,8 +133,8 @@ Blockly.Python['gpi_trigger'] = function(block) {
 
   var code = 
 `${divider_comment_start.replace('%%','gpi_trigger %1')}
-def gpi_int_callback_${dropdown_edge}_GPI${dropdown_pin}():
-  log.info("gpi_int_callback_${dropdown_edge}_GPI${dropdown_pin} function called")
+def gpi_int_callback_${dropdown_edge}_GPI${dropdown_pin}(pin_no,pin_val,int_type):
+  log.info("gpi_int_callback_${dropdown_edge}_GPI${dropdown_pin} function called for pin "+str(pin_no)+", with new value of "+str(pin_val))
   debugLogEntry(%1,{"t": "blockly.debug.gpi_interrupt", "d": ["${edge_string}","${dropdown_pin}"]})
 ${statements_fn}  log.info("gpi_int_callback_${dropdown_edge}_GPI${dropdown_pin} function ended -^-")
 
@@ -257,7 +258,7 @@ Blockly.Python['simple_read'] = function(block) {
   var checkbox_ant_2 = block.getFieldValue('ant_2') == 'TRUE';
   var checkbox_ant_3 = block.getFieldValue('ant_3') == 'TRUE';
   var checkbox_ant_4 = block.getFieldValue('ant_4') == 'TRUE';
-  var number_power = block.getFieldValue('power');
+  var number_power = block.getFieldValue('power')*100;
   
   importDebugLogDependancies();
   Blockly.Python.definitions_['global_simple_read'] = simple_read;
@@ -284,7 +285,7 @@ Blockly.Python['autonomous_read'] = function(block) {
   var checkbox_ant_4 = block.getFieldValue('ant_4') == 'TRUE';
   var variable_read_tag = Blockly.Python.variableDB_.getName(block.getFieldValue('read_tag'), Blockly.Variables.NAME_TYPE);
   var statements_callback = Blockly.Python.prefixLines(Blockly.Python.statementToCode(block, 'callback'),'    ');
-  var number_power = block.getFieldValue('power');
+  var number_power = block.getFieldValue('power')*100;
 
   var antennas_string = ((checkbox_ant_1?'1,':'')+(checkbox_ant_2?'2,':'')+(checkbox_ant_3?'3,':'')+(checkbox_ant_4?'4,':'')).slice(0, -1);
 
