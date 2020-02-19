@@ -258,6 +258,14 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "style": "text_blocks",
     "tooltip": "%{BKY_EREFIDE_CURRENT_DATETIME_TOOLTIP}",
     "helpUrl": "%{BKY_EREFIDE_CURRENT_DATETIME_HELPURL}"
+  },
+  {
+    "type": "reader_id",
+    "message0": "%{BKY_EREFIDE_READER_ID}",
+    "output": "String",
+    "style": "text_blocks",
+    "tooltip": "%{BKY_EREFIDE_READER_ID_TOOLTIP}",
+    "helpUrl": "%{BKY_EREFIDE_READER_ID_HELPURL}"
   }
 ]);  // END JSON EXTRACT (Do not delete this comment.)
 

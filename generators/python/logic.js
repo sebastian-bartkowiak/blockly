@@ -27,7 +27,7 @@ goog.require('Blockly.Python');
 
 
 Blockly.Python['controls_if'] = function(block) {
-  importDebugLogDependancies();
+  importDebugLogDependancies(block);
   // If/elseif/else condition.
   var n = 0;
   var code = 'debugLogEntry(%1,"blockly.debug.if")\n', branchCode, conditionCode;

@@ -184,7 +184,7 @@ Blockly.Python['lists_getIndex'] = function(block) {
 };
 
 Blockly.Python['lists_setIndex'] = function(block) {
-  importDebugLogDependancies();
+  importDebugLogDependancies(block);
   // Set element at index.
   // Note: Until February 2013 this block did not have MODE or WHERE inputs.
   var list = Blockly.Python.valueToCode(block, 'LIST',

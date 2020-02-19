@@ -202,14 +202,31 @@ Blockly.Python.finish = function(code) {
   var allDefs = imports.join('\n') + '\n\n' + definitions.join('\n\n');
   var ret = allDefs.replace(/\n\n+/g, '\n\n').replace(/\n*$/, '\n\n\n') + code;
   // Wrap whole code in try ... except clause for logging purposes.
-  ret = Blockly.Python.prefixLines(ret,'  ');
   ret = `from readerapp import logger
 log = logger.Logger('inteligent').getInstance()
+import sys
+import subprocess
+from traceback import format_tb
+from os import _exit
+def common_except_hook(exctype, value, trace):
+  log.error("Exception occured")
+  log.error(exctype.__name__ + ": " + str(value))
+  log.error("Trace:")
+  trace = format_tb(trace)
+  for i in range(len(trace)): 
+    log.error(trace[i].rstrip())
+def unhadled_error_hook(exctype, value, trace):
+  common_except_hook(exctype,value,trace)
+  try:
+    debugLogEntry(-1,{"t": "blockly.debug.unhandled_error"})
+  except Exception:
+    log.warning("debugLogEntry not yet defined, so no data about exception written there!")
+  log.error("unhandled error! exiting...")
+  subprocess.run(['/etc/init.d/inteligent','stop'])
+sys.excepthook = unhadled_error_hook
 log.info("--- Intelligent script started ---")
-try:
-${ret}\
-except:
-  log.exception("Exception occured")`;
+${ret}
+`;
   return ret;
 };
 

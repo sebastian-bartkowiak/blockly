@@ -36,6 +36,21 @@ Blockly.defineBlocksWithJsonArray([{
   "helpUrl": "%{BKY_EREFIDE_READ_GPI_HELPURL}"
 },
 {
+  "type": "read_gpo",
+  "message0": "%{BKY_EREFIDE_READ_GPO}",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "pin",
+      "check": "erefide_output_type"
+    }
+  ],
+  "output": "erefide_gpio_state_type",
+  "style": "erefide_blocks",
+  "tooltip": "%{BKY_EREFIDE_READ_GPO_TOOLTIP}",
+  "helpUrl": "%{BKY_EREFIDE_READ_GPO_HELPURL}"
+},
+{
   "type": "gpi_trigger",
   "message0": "%{BKY_EREFIDE_GPI_TRIGGER}",
   "args0": [
@@ -287,7 +302,7 @@ Blockly.defineBlocksWithJsonArray([{
     }
   ],
   "inputsInline": false,
-  "output": null,
+  "output": "Array",
   "style": "erefide_blocks",
   "tooltip": "%{BKY_EREFIDE_SIMPLE_READ_TOOLTIP}",
   "helpUrl": "%{BKY_EREFIDE_SIMPLE_READ_HELPURL}"
@@ -407,5 +422,39 @@ Blockly.defineBlocksWithJsonArray([{
   ],
   "style": "erefide_blocks",
   "tooltip": "%{BKY_EREFIDE_CRON_TASK_TOOLTIP}",
-  "helpUrl": "%{BKY_EREFIDE_CRON_HELPURL}"
+  "helpUrl": "%{BKY_EREFIDE_CRON_TASK_HELPURL}"
+},
+{
+  "type": "error_handler",
+  "message0": "%{BKY_EREFIDE_ERROR_HANDLER}",
+  "args0": [
+    {
+      "type": "field_variable",
+      "name": "error_var",
+      "variable": "error"
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "callback"
+    }
+  ],
+  "style": "erefide_blocks",
+  "tooltip": "%{BKY_EREFIDE_ERROR_HANDLER_TOOLTIP}",
+  "helpUrl": "%{BKY_EREFIDE_ERROR_HANDLER_HELPURL}"
+},
+{
+  "type": "restart_app",
+  "message0": "%{BKY_EREFIDE_RESTART_APP}",
+  "args0": [
+    {
+      "type": "input_dummy"
+    }
+  ],
+  "previousStatement": null,
+  "style": "erefide_blocks",
+  "tooltip": "%{BKY_EREFIDE_RESTART_APP_TOOLTIP}",
+  "helpUrl": "%{BKY_EREFIDE_RESTART_APP_HELPURL}"
 }]);

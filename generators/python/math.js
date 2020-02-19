@@ -232,6 +232,7 @@ Blockly.Python['math_number_property'] = function(block) {
 };
 
 Blockly.Python['math_change'] = function(block) {
+  importDebugLogDependancies(block);
   // Add to a variable in place.
   Blockly.Python.definitions_['from_numbers_import_Number'] =
       'from numbers import Number';
@@ -239,8 +240,9 @@ Blockly.Python['math_change'] = function(block) {
       Blockly.Python.ORDER_ADDITIVE) || '0';
   var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('VAR'),
       Blockly.Variables.NAME_TYPE);
+  var userVarName = Blockly.Variables.allUsedVarModels(block.workspace).filter((e)=>e.id_==block.getFieldValue("VAR"))[0].name;
   return varName + ' = (' + varName + ' if isinstance(' + varName +
-      ', Number) else 0) + ' + argument0 + '\n';
+      ', Number) else 0) + ' + argument0 + '\n' + Blockly.Python.injectId(`debugLogEntry(%1,{"t": "blockly.debug.change_variable", "d": ["${userVarName}"]},{"${userVarName}":${varName}})\n`, block);
 };
 
 // Rounding functions have a single operand.

@@ -396,6 +396,16 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "style": "math_blocks",
     "tooltip": "%{BKY_MATH_ATAN2_TOOLTIP}",
     "helpUrl": "%{BKY_MATH_ATAN2_HELPURL}"
+  },
+
+  //Current UNIX timestamp
+  {
+    "type": "current_timestamp",
+    "message0": "%{BKY_EREFIDE_CURRENT_TIMESTAMP}",
+    "output": "Number",
+    "style": "math_blocks",
+    "helpUrl": "%{BKY_EREFIDE_CURRENT_TIMESTAMP_HELPURL}",
+    "tooltip": "%{BKY_EREFIDE_CURRENT_TIMESTAMP_TOOLTIP}"
   }
 ]);  // END JSON EXTRACT (Do not delete this comment.)
 
