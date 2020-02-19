@@ -1,3 +1,25 @@
+const globalizeWorkspaceVariables = (block,indent)=>{
+  var variables = Blockly.Variables.allUsedVarModels(block.workspace).map((e)=>Blockly.Python.variableDB_.getName(e.name,Blockly.Variables.NAME_TYPE));
+  var ret = '';
+  for(var variable of variables){
+    ret += `global ${variable}\n`;
+  }
+  return ret.length?Blockly.Python.prefixLines(ret,indent):'';
+}
+
+const variablesDebug = (block)=>{
+  var variables = Blockly.Variables.allUsedVarModels(block.workspace).map((e)=>{return {user_name:e.name, real_name:Blockly.Python.variableDB_.getName(e.name,Blockly.Variables.NAME_TYPE)}});
+  var ret = ',"v":{';
+  for(var variable of variables){
+    ret += `"${variable.user_name}":${variable.real_name},`;
+  }
+  if(ret != ',"v":{'){
+    ret = ret.slice(0,-1);
+    ret += '}';
+    return ret;
+  }  
+  return '';
+}
 // -v- common debug logging function -v-
 Blockly.Python.addReservedWords('debugLogEntry,block_id,text,comment,time,json,logging,TimedRotatingFileHandler,debugLog');
 const trans_keyword = '#TRANS#';
@@ -16,7 +38,10 @@ const import_json =
 `${divider_comment_start.replace('%%','import_json')}
 import json
 ${divider_comment_stop.replace('%%','import_json')}`;
-const global_debugLogEntry = 
+const importDebugLogDependancies = (block)=>{
+  Blockly.Python.definitions_['import_time'] = import_time;
+  Blockly.Python.definitions_['import_json'] = import_json;
+  Blockly.Python.definitions_['global_debugLogEntry'] = 
 `${divider_comment_start.replace('%%','global_debugLogEntry')}
 import logging
 from logging.handlers import TimedRotatingFileHandler
@@ -31,24 +56,20 @@ def debugLogEntry(block_id,text,comment=False):
       "t":time.strftime("%H:%M:%S"),
       "i":block_id,
       "s":text,
-      "c":comment
+      "c":comment${variablesDebug(block)}
     }
   else:
     entry = {
       "t":time.strftime("%H:%M:%S"),
       "i":block_id,
-      "s":text
+      "s":text${variablesDebug(block)}
     }
   debugLog.debug(json.dumps(entry)+',')
 ${divider_comment_stop.replace('%%','global_debugLogEntry')}`;
-const importDebugLogDependancies = ()=>{
-  Blockly.Python.definitions_['import_time'] = import_time;
-  Blockly.Python.definitions_['import_json'] = import_json;
-  Blockly.Python.definitions_['global_debugLogEntry'] = global_debugLogEntry;
 };
 /*
 implementation:
-importDebugLogDependancies();
+importDebugLogDependancies(block);
 Blockly.Python.injectId(`%1`, block)
 */
 // -^- common debug logging function -^-
@@ -56,11 +77,15 @@ Blockly.Python.injectId(`%1`, block)
 Blockly.Python.addReservedWords('logger,log,inteligent');
 
 Blockly.Python.addReservedWords('mercury,reader,simple_read,ant,readTime,power,max_power,power_object,antenna,read_epcs_data,ret,list,map,t,subprocess');
-const simple_read =
-`${divider_comment_start.replace('%%','simple_read')}
+const reader_init =
+`${divider_comment_start.replace('%%','reader_init')}
 import mercury
 import subprocess
 reader = mercury.Reader("tmr:///dev/ttyS1")
+${divider_comment_stop.replace('%%','reader_init')}`;
+
+const simple_read =
+`${divider_comment_start.replace('%%','simple_read')}
 def simple_read(ant,readTime,power):
   log.info("simple_read function called")
   reader.set_read_plan(ant, "GEN2")
@@ -74,7 +99,7 @@ def simple_read(ant,readTime,power):
   ret = list(map(lambda t: t.epc.decode('utf-8'), read_epcs_data))
   log.info("simple_read function ended")
   return ret
-${divider_comment_stop.replace('%%','simple_read')}`;
+${divider_comment_stop.replace('%%','simple_read')}`
 
 Blockly.Python.addReservedWords('readerapp,onioni2cgpio,ErefideGPIO,gpios');
 const gpios_init = 
@@ -88,7 +113,7 @@ Blockly.Python['set_gpo'] = function(block) {
   var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
   var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
   
-  importDebugLogDependancies();
+  importDebugLogDependancies(block);
   Blockly.Python.definitions_['global_ErefideGPIO'] = gpios_init;
   Blockly.Python.definitions_['global_setGpo'] = 
 `${divider_comment_start.replace('%%','global_setGpo')}
@@ -105,7 +130,7 @@ Blockly.Python.addReservedWords('getGpi,pin');
 Blockly.Python['read_gpi'] = function(block) {
   var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
 
-  importDebugLogDependancies();
+  importDebugLogDependancies(block);
   Blockly.Python.definitions_['global_ErefideGPIO'] = gpios_init;
   Blockly.Python.definitions_['global_getGpi'] = 
 `${divider_comment_start.replace('%%','global_getGpi')}
@@ -119,24 +144,47 @@ ${divider_comment_stop.replace('%%','global_getGpi')}`;
   return [Blockly.Python.injectId(`getGpi(${value_pin},%1)\n`, block), Blockly.Python.ORDER_NONE];
 };
 
+Blockly.Python.addReservedWords('getGpo,pin');
+Blockly.Python['read_gpo'] = function(block) {
+  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
+
+  importDebugLogDependancies(block);
+  Blockly.Python.definitions_['global_ErefideGPIO'] = gpios_init;
+  Blockly.Python.definitions_['global_getGpo'] = 
+`${divider_comment_start.replace('%%','global_getGpo')}
+def getGpo(pin,block_id):
+  log.info("getGpo function called")
+  ret = gpios.getGpo(pin)
+  debugLogEntry(block_id,{"t":"blockly.debug.get_gpo","d":[str(pin)]},{"t":"blockly.debug.get_gpo_value","d":[str(pin),("${trans_keyword}blockly.debug.high" if ret else "${trans_keyword}blockly.debug.low")]})
+  return ret
+${divider_comment_stop.replace('%%','global_getGpo')}`;
+
+  return [Blockly.Python.injectId(`getGpo(${value_pin},%1)\n`, block), Blockly.Python.ORDER_NONE];
+};
+
 Blockly.Python.addReservedWords('INT_RISING,INT_FALLING,INT_BOTH,gpi_int_callback_INT_RISING_GPI0,gpi_int_callback_INT_RISING_GPI1,gpi_int_callback_INT_RISING_GPI2,gpi_int_callback_INT_RISING_GPI3,gpi_int_callback_INT_FALLING_GPI0,gpi_int_callback_INT_FALLING_GPI1,gpi_int_callback_INT_FALLING_GPI2,gpi_int_callback_INT_FALLING_GPI3,gpi_int_callback_INT_BOTH_GPI0,gpi_int_callback_INT_BOTH_GPI1,gpi_int_callback_INT_BOTH_GPI2,gpi_int_callback_INT_BOTH_GPI3');
 Blockly.Python['gpi_trigger'] = function(block) {
   var dropdown_edge = block.getFieldValue('edge');
   var dropdown_pin = block.getFieldValue('pin');
-  var statements_fn = Blockly.Python.statementToCode(block, 'fn');
+  var statements_fn = Blockly.Python.prefixLines(Blockly.Python.statementToCode(block, 'fn'),'  ');
 
   var edge_string = trans_keyword+'blockly.debug.edge_'+(dropdown_edge==0?'rising':(dropdown_edge==1?'falling':'any'))
   dropdown_edge = dropdown_edge==0?'INT_RISING':(dropdown_edge==1?'INT_FALLING':'INT_BOTH');
 
-  importDebugLogDependancies();
+  importDebugLogDependancies(block);
   Blockly.Python.definitions_['global_ErefideGPIO'] = gpios_init;
 
   var code = 
 `${divider_comment_start.replace('%%','gpi_trigger %1')}
 def gpi_int_callback_${dropdown_edge}_GPI${dropdown_pin}(pin_no,pin_val,int_type):
   log.info("gpi_int_callback_${dropdown_edge}_GPI${dropdown_pin} function called for pin "+str(pin_no)+", with new value of "+str(pin_val))
-  debugLogEntry(%1,{"t": "blockly.debug.gpi_interrupt", "d": ["${edge_string}","${dropdown_pin}"]})
-${statements_fn}  log.info("gpi_int_callback_${dropdown_edge}_GPI${dropdown_pin} function ended -^-")
+  try:
+${globalizeWorkspaceVariables(block,'    ')}\
+    debugLogEntry(%1,{"t": "blockly.debug.gpi_interrupt", "d": ["${edge_string}","${dropdown_pin}"]})
+${statements_fn}\
+    log.info("gpi_int_callback_${dropdown_edge}_GPI${dropdown_pin} function ended -^-")
+  except Exception:
+    sys.excepthook(*sys.exc_info())
 
 log.info("gpi_trigger for pin GPI${dropdown_pin} and edge ${dropdown_edge} init code")
 gpios.setupGPIInterrupt(${dropdown_pin},gpios.${dropdown_edge},gpi_int_callback_${dropdown_edge}_GPI${dropdown_pin})
@@ -163,34 +211,34 @@ Blockly.Python['gpio_state_picker'] = function(block) {
   return [dropdown_state, Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python.addReservedWords('time,sleep,t');
+Blockly.Python.addReservedWords('time,sleep,t,format');
 Blockly.Python['sleep'] = function(block) {
   var number_sleep_time = block.getFieldValue('sleep_time');
 
-  importDebugLogDependancies();
+  importDebugLogDependancies(block);
   Blockly.Python.definitions_['import_time'] = import_time;
   Blockly.Python.definitions_['global_sleep'] = 
 `${divider_comment_start.replace('%%','global_sleep')}
 def sleep(t,block_id):
   log.info("sleep function called")
-  debugLogEntry(block_id,{"t": "blockly.debug.sleep", "d": [str(round(t,2))]})
+  debugLogEntry(block_id,{"t": "blockly.debug.sleep", "d": ["{:.2f}".format(t)]})
   time.sleep(t)
 ${divider_comment_stop.replace('%%','global_sleep')}`;
 
   return Blockly.Python.injectId(`sleep(${number_sleep_time},%1)\n`, block);
 };
 
-Blockly.Python.addReservedWords('buzzer,t');
+Blockly.Python.addReservedWords('buzzer,t,format');
 Blockly.Python['beep_buzzer'] = function(block) {
   var number_time = block.getFieldValue('time');
 
-  importDebugLogDependancies();
+  importDebugLogDependancies(block);
   Blockly.Python.definitions_['global_ErefideGPIO'] = gpios_init;
   Blockly.Python.definitions_['global_buzzer'] = 
 `${divider_comment_start.replace('%%','global_buzzer')}
 def buzzer(t,block_id):
   log.info("buzzer function called")
-  debugLogEntry(block_id,{"t": "blockly.debug.buzzer", "d": [str(round(t,2))]})
+  debugLogEntry(block_id,{"t": "blockly.debug.buzzer", "d": ["{:.2f}".format(t)]})
   gpios.buzzer(t*1000)
 ${divider_comment_stop.replace('%%','global_buzzer')}`;
 
@@ -206,13 +254,16 @@ Blockly.Python['post_data'] = function(block) {
     value_url = '\'http://'+value_url.substr(1);
   }
   
-  importDebugLogDependancies();
+  importDebugLogDependancies(block);
   Blockly.Python.definitions_['import_json'] = 'import json';
+  Blockly.Python.definitions_['global_getID_function'] = 
+`${divider_comment_start.replace('%%','global_getID_function')}
+from readerapp.utils import OnionUtils
+my_unique_id = OnionUtils().get_unique_id()
+${divider_comment_stop.replace('%%','global_getID_function')}`;
   Blockly.Python.definitions_['global_post_function'] = 
 `${divider_comment_start.replace('%%','global_post_function')}
 from urllib import request
-from readerapp.utils import OnionUtils
-my_unique_id = OnionUtils().get_unique_id()
 def post_function(url,data,block_id):
   log.info("post_function function called")
   try:
@@ -236,7 +287,7 @@ ${divider_comment_stop.replace('%%','global_post_function')}`;
 Blockly.Python['current_time'] = function(block) {
   Blockly.Python.definitions_['import_time'] = import_time;
 
-  return ['time.strftime("%H:%M")', Blockly.Python.ORDER_NONE];
+  return ['time.strftime("%H:%M:%S")', Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python['current_date'] = function(block) {
@@ -248,7 +299,24 @@ Blockly.Python['current_date'] = function(block) {
 Blockly.Python['current_datetime'] = function(block) {
   Blockly.Python.definitions_['import_time'] = import_time;
 
-  return ['time.strftime("%d.%m.%Y %H:%M")', Blockly.Python.ORDER_NONE];
+  return ['time.strftime("%d.%m.%Y %H:%M:%S")', Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['current_timestamp'] = function(block) {
+  Blockly.Python.definitions_['import_time'] = import_time;
+
+  return ['int(time.time())', Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python.addReservedWords('OnionUtils,my_unique_id');
+Blockly.Python['reader_id'] = function(block) {
+  Blockly.Python.definitions_['global_getID_function'] = 
+`${divider_comment_start.replace('%%','global_getID_function')}
+from readerapp.utils import OnionUtils
+my_unique_id = OnionUtils().get_unique_id()
+${divider_comment_stop.replace('%%','global_getID_function')}`;
+
+  return ['my_unique_id', Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python.addReservedWords('simple_read_wrapper');
@@ -260,7 +328,8 @@ Blockly.Python['simple_read'] = function(block) {
   var checkbox_ant_4 = block.getFieldValue('ant_4') == 'TRUE';
   var number_power = block.getFieldValue('power')*100;
   
-  importDebugLogDependancies();
+  importDebugLogDependancies(block);
+  Blockly.Python.definitions_['global_reader_init'] = reader_init;
   Blockly.Python.definitions_['global_simple_read'] = simple_read;
 
   var antennas_string = ((checkbox_ant_1?'1,':'')+(checkbox_ant_2?'2,':'')+(checkbox_ant_3?'3,':'')+(checkbox_ant_4?'4,':'')).slice(0, -1);
@@ -277,40 +346,65 @@ ${divider_comment_stop.replace('%%','simple_read_wrapper')}`;
   return [Blockly.Python.injectId(`simple_read_wrapper([${antennas_string}],${number_time},${number_power},%1)`,block), Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python.addReservedWords('CustomTimer,autonomous_cb');
+Blockly.Python.addReservedWords('autonomousHandle,AutonomousThread');
 Blockly.Python['autonomous_read'] = function(block) {
   var checkbox_ant_1 = block.getFieldValue('ant_1') == 'TRUE';
   var checkbox_ant_2 = block.getFieldValue('ant_2') == 'TRUE';
   var checkbox_ant_3 = block.getFieldValue('ant_3') == 'TRUE';
   var checkbox_ant_4 = block.getFieldValue('ant_4') == 'TRUE';
   var variable_read_tag = Blockly.Python.variableDB_.getName(block.getFieldValue('read_tag'), Blockly.Variables.NAME_TYPE);
-  var statements_callback = Blockly.Python.prefixLines(Blockly.Python.statementToCode(block, 'callback'),'    ');
+  var statements_callback = Blockly.Python.prefixLines(Blockly.Python.statementToCode(block, 'callback'),'        ');
   var number_power = block.getFieldValue('power')*100;
 
   var antennas_string = ((checkbox_ant_1?'1,':'')+(checkbox_ant_2?'2,':'')+(checkbox_ant_3?'3,':'')+(checkbox_ant_4?'4,':'')).slice(0, -1);
 
-  importDebugLogDependancies();
-  Blockly.Python.definitions_['import_customtimer'] = 
-  `${divider_comment_start.replace('%%','import_customtimer')}
-  from readerapp.customtimer import CustomTimer
-  ${divider_comment_stop.replace('%%','import_customtimer')}`;
-  Blockly.Python.definitions_['global_simple_read'] = simple_read;
-
-  const number_time = 900;
+  importDebugLogDependancies(block);
+  Blockly.Python.definitions_['import_threading'] = 
+`${divider_comment_start.replace('%%','import_threading')}
+import threading
+${divider_comment_stop.replace('%%','import_threading')}`;
+  
+  Blockly.Python.definitions_['global_reader_init'] = reader_init;
 
   var code = 
 `${divider_comment_start.replace('%%','autonomous_read %1')}
-def autonomous_cb():
-    log.info("autonomous_cb function called")
-    ${variable_read_tag} = simple_read([${antennas_string}],${number_time},${number_power})
-    if len(${variable_read_tag}):
-      log.info("statements_callback called")
-      debugLogEntry(%1,"blockly.debug.autonomous_read",${variable_read_tag})
-${statements_callback}      log.info("statements_callback ended")
-    log.info("autonomous_cb function ended")
+class AutonomousThread(threading.Thread):
+  reader_object = None
+  ant = None
+  power = None
+  def __init__(self, reader_object):
+    self.reader_object = reader_object
+    threading.Thread.__init__(self)
+
+  def run(self):
+    try:
+      reader = mercury.Reader("tmr:///dev/ttyS1")
+      reader.set_read_plan(self.ant, "GEN2")
+      reader.set_region(str(subprocess.check_output(['uci','get','reader.main.region']))[2:-3])
+      reader.set_gen2_q(int(str(subprocess.check_output(['uci','get','reader.main.Q_dynamic']))[2:-3]),int(str(subprocess.check_output(['uci','get','reader.main.Q_value']))[2:-3]))
+      power_object = []
+      for antenna in self.ant:
+        power_object.append((antenna,self.power))
+      reader.set_read_powers(power_object)
+${globalizeWorkspaceVariables(block,'      ')}\
+      while True:
+        log.info("autonomous_cb function called")
+        raw_tags = reader.read(800)
+        ${variable_read_tag} = list(map(lambda t: t.epc.decode('utf-8'), raw_tags))
+        if len(${variable_read_tag}):
+          log.info("statements_callback called")
+          debugLogEntry(%1,"blockly.debug.autonomous_read",${variable_read_tag})
+${statements_callback}\
+          log.info("statements_callback ended")
+        log.info("autonomous_cb function ended")
+    except Exception:
+      sys.excepthook(*sys.exc_info())
 
 log.info("autonomous_cb init code")
-CustomTimer(${number_time*1.1},autonomous_cb).start()
+autonomousHandle = AutonomousThread(reader)
+autonomousHandle.ant = [${antennas_string}]
+autonomousHandle.power = ${number_power}
+autonomousHandle.start()
 log.info("autonomous_cb init ended")
 ${divider_comment_stop.replace('%%','autonomous_read %1')}`;
 
@@ -321,14 +415,16 @@ Blockly.Python.addReservedWords('program_start');
 Blockly.Python['program_start'] = function(block) {
   var statements_code = Blockly.Python.statementToCode(block, 'code');
 
-  importDebugLogDependancies();
+  importDebugLogDependancies(block);
 
   var code = 
 `${divider_comment_start.replace('%%','program_start %1')}
 def program_start():
   log.info("program_start function called")
+${globalizeWorkspaceVariables(block,'  ')}\
   debugLogEntry(%1,"blockly.debug.program_start")
-${statements_code}  log.info("program_start function ended")
+${statements_code}\
+  log.info("program_start function ended")
 
 program_start()
 ${divider_comment_stop.replace('%%','program_start %1')}`;
@@ -339,9 +435,9 @@ Blockly.Python.addReservedWords('CustomTimer');
 Blockly.Python['cron_task'] = function(block) {
   var number_time = block.getFieldValue('time');
   var dropdown_selector = block.getFieldValue('selector');
-  var statements_code = Blockly.Python.statementToCode(block, 'code');
-  
-  importDebugLogDependancies();
+  var statements_code = Blockly.Python.prefixLines(Blockly.Python.statementToCode(block, 'code'),'  ');
+
+  importDebugLogDependancies(block);
   Blockly.Python.definitions_['import_customtimer'] = 
 `${divider_comment_start.replace('%%','import_customtimer')}
 from readerapp.customtimer import CustomTimer
@@ -354,13 +450,52 @@ ${divider_comment_stop.replace('%%','import_customtimer')}`;
 `${divider_comment_start.replace('%%','cron_task %1')}
 def ${function_name}():
   log.info("${function_name} function called")
-  debugLogEntry(%1,{"t": "blockly.debug.cron_task", "d": ["${number_time}","${trans_keyword}blockly.debug.${dropdown_selector}"]})
-${statements_code}  log.info("${function_name} function ended")
+  try:
+${globalizeWorkspaceVariables(block,'    ')}\
+    debugLogEntry(%1,{"t": "blockly.debug.cron_task", "d": ["${number_time}","${trans_keyword}blockly.debug.${dropdown_selector}"]})
+${statements_code}\
+    log.info("${function_name} function ended")
+  except Exception:
+    sys.excepthook(*sys.exc_info())
 
 log.info("${function_name} init code")
 CustomTimer(${number_time*dropdown_multiplier},${function_name}).start()
 log.info("${function_name} init ended")
 ${divider_comment_stop.replace('%%','cron_task %1')}`;
 
+  return Blockly.Python.injectId(code,block);
+};
+
+Blockly.Python.addReservedWords('subprocess,global_restart_function');
+Blockly.Python['restart_app'] = function(block) {
+  importDebugLogDependancies(block);
+
+  Blockly.Python.definitions_['global_restart_function'] = 
+`${divider_comment_start.replace('%%','global_restart_function')}
+def global_restart_function(block_id):
+  debugLogEntry(block_id,{"t": "blockly.debug.restart_app"})
+  subprocess.run(['/etc/init.d/inteligent','restart'])
+${divider_comment_stop.replace('%%','global_restart_function')}`;
+
+  return Blockly.Python.injectId('global_restart_function(%1)\n',block);
+};
+
+Blockly.Python.addReservedWords('sys,common_except_hook,error_handler,exception_type,exception_value,exception_trace,error,format_tb,unhadled_error_hook,kill,getpid,SIGINT');
+Blockly.Python['error_handler'] = function(block) {
+  var variable_error_var = Blockly.Python.variableDB_.getName(block.getFieldValue('error_var'), Blockly.Variables.NAME_TYPE);
+  var statements_callback = Blockly.Python.statementToCode(block, 'callback');
+
+  importDebugLogDependancies(block);
+
+  var code = 
+`${divider_comment_start.replace('%%','error_handler %1')}
+def error_handler(exception_type,exception_value,exception_trace):
+${globalizeWorkspaceVariables(block,'  ')}\
+  common_except_hook(exception_type,exception_value,exception_trace)
+  ${variable_error_var} = exception_type.__name__ + ": " + str(exception_value)
+  debugLogEntry(%1,{"t": "blockly.debug.error_handler"},${variable_error_var})
+${statements_callback}
+sys.excepthook = error_handler
+${divider_comment_stop.replace('%%','error_handler %1')}`;
   return Blockly.Python.injectId(code,block);
 };
