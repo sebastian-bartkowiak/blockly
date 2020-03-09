@@ -76,30 +76,16 @@ Blockly.Python.injectId(`%1`, block)
 
 Blockly.Python.addReservedWords('logger,log,inteligent');
 
-Blockly.Python.addReservedWords('mercury,reader,simple_read,ant,readTime,power,max_power,power_object,antenna,read_epcs_data,ret,list,map,t,subprocess');
-const reader_init =
-`${divider_comment_start.replace('%%','reader_init')}
+Blockly.Python.addReservedWords('mercury');
+const import_mercury =
+`${divider_comment_start.replace('%%','import_mercury')}
 import mercury
-import subprocess
-reader = mercury.Reader("tmr:///dev/ttyS1")
-${divider_comment_stop.replace('%%','reader_init')}`;
+${divider_comment_stop.replace('%%','import_mercury')}`;
 
-const simple_read =
-`${divider_comment_start.replace('%%','simple_read')}
-def simple_read(ant,readTime,power):
-  log.info("simple_read function called")
-  reader.set_read_plan(ant, "GEN2")
-  reader.set_region(str(subprocess.check_output(['uci','get','reader.main.region']))[2:-3])
-  reader.set_gen2_q(int(str(subprocess.check_output(['uci','get','reader.main.Q_dynamic']))[2:-3]),int(str(subprocess.check_output(['uci','get','reader.main.Q_value']))[2:-3]))
-  power_object = []
-  for antenna in ant:
-    power_object.append((antenna,power))
-  reader.set_read_powers(power_object)
-  read_epcs_data = reader.read(readTime)
-  ret = list(map(lambda t: t.epc.decode('utf-8'), read_epcs_data))
-  log.info("simple_read function ended")
-  return ret
-${divider_comment_stop.replace('%%','simple_read')}`
+const import_threading =
+`${divider_comment_start.replace('%%','import_threading')}
+import threading
+${divider_comment_stop.replace('%%','import_threading')}`;
 
 Blockly.Python.addReservedWords('readerapp,onioni2cgpio,ErefideGPIO,gpios');
 const gpios_init = 
@@ -162,11 +148,12 @@ ${divider_comment_stop.replace('%%','global_getGpo')}`;
   return [Blockly.Python.injectId(`getGpo(${value_pin},%1)\n`, block), Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python.addReservedWords('INT_RISING,INT_FALLING,INT_BOTH,gpi_int_callback_INT_RISING_GPI0,gpi_int_callback_INT_RISING_GPI1,gpi_int_callback_INT_RISING_GPI2,gpi_int_callback_INT_RISING_GPI3,gpi_int_callback_INT_FALLING_GPI0,gpi_int_callback_INT_FALLING_GPI1,gpi_int_callback_INT_FALLING_GPI2,gpi_int_callback_INT_FALLING_GPI3,gpi_int_callback_INT_BOTH_GPI0,gpi_int_callback_INT_BOTH_GPI1,gpi_int_callback_INT_BOTH_GPI2,gpi_int_callback_INT_BOTH_GPI3');
+Blockly.Python.addReservedWords('INT_RISING,INT_FALLING,INT_BOTH,gpi_int_callback_INT_RISING_GPI0,gpi_int_callback_INT_RISING_GPI1,gpi_int_callback_INT_RISING_GPI2,gpi_int_callback_INT_RISING_GPI3,gpi_int_callback_INT_FALLING_GPI0,gpi_int_callback_INT_FALLING_GPI1,gpi_int_callback_INT_FALLING_GPI2,gpi_int_callback_INT_FALLING_GPI3,gpi_int_callback_INT_BOTH_GPI0,gpi_int_callback_INT_BOTH_GPI1,gpi_int_callback_INT_BOTH_GPI2,gpi_int_callback_INT_BOTH_GPI3,gpi_semaphore_INT_RISING_GPI0,gpi_semaphore_INT_RISING_GPI1,gpi_semaphore_INT_RISING_GPI2gpi_semaphore_INT_RISING_GPI3,gpi_semaphore_INT_FALLING_GPI0,gpi_semaphore_INT_FALLING_GPI1,gpi_semaphore_INT_FALLING_GPI2,gpi_semaphore_INT_FALLING_GPI3,gpi_semaphore_INT_BOTH_GPI0,gpi_semaphore_INT_BOTH_GPI1,gpi_semaphore_INT_BOTH_GPI2,gpi_semaphore_INT_BOTH_GPI3');
+
 Blockly.Python['gpi_trigger'] = function(block) {
   var dropdown_edge = block.getFieldValue('edge');
   var dropdown_pin = block.getFieldValue('pin');
-  var statements_fn = Blockly.Python.prefixLines(Blockly.Python.statementToCode(block, 'fn'),'  ');
+  var statements_fn = Blockly.Python.prefixLines(Blockly.Python.statementToCode(block, 'fn'),'    ');
 
   var edge_string = trans_keyword+'blockly.debug.edge_'+(dropdown_edge==0?'rising':(dropdown_edge==1?'falling':'any'))
   dropdown_edge = dropdown_edge==0?'INT_RISING':(dropdown_edge==1?'INT_FALLING':'INT_BOTH');
@@ -176,13 +163,18 @@ Blockly.Python['gpi_trigger'] = function(block) {
 
   var code = 
 `${divider_comment_start.replace('%%','gpi_trigger %1')}
+gpi_semaphore_${dropdown_edge}_GPI${dropdown_pin} = threading.BoundedSemaphore()
 def gpi_int_callback_${dropdown_edge}_GPI${dropdown_pin}(pin_no,pin_val,int_type):
   log.info("gpi_int_callback_${dropdown_edge}_GPI${dropdown_pin} function called for pin "+str(pin_no)+", with new value of "+str(pin_val))
   try:
-${globalizeWorkspaceVariables(block,'    ')}\
-    debugLogEntry(%1,{"t": "blockly.debug.gpi_interrupt", "d": ["${edge_string}","${dropdown_pin}"]})
+    if gpi_semaphore_${dropdown_edge}_GPI${dropdown_pin}.acquire(timeout=0.1):
+${globalizeWorkspaceVariables(block,'      ')}\
+      debugLogEntry(%1,{"t": "blockly.debug.gpi_interrupt", "d": ["${edge_string}","${dropdown_pin}"]})
 ${statements_fn}\
-    log.info("gpi_int_callback_${dropdown_edge}_GPI${dropdown_pin} function ended -^-")
+      gpi_semaphore_${dropdown_edge}_GPI${dropdown_pin}.release()
+      log.info("gpi_int_callback_${dropdown_edge}_GPI${dropdown_pin} function ended")
+    else:
+      log.warning("gpi_int_callback_${dropdown_edge}_GPI${dropdown_pin} function execution skipped, due to previous execution still beeing in progress")
   except Exception:
     sys.excepthook(*sys.exc_info())
 
@@ -221,7 +213,7 @@ Blockly.Python['sleep'] = function(block) {
 `${divider_comment_start.replace('%%','global_sleep')}
 def sleep(t,block_id):
   log.info("sleep function called")
-  debugLogEntry(block_id,{"t": "blockly.debug.sleep", "d": ["{:.2f}".format(t)]})
+  debugLogEntry(block_id,{"t": "blockly.debug.sleep", "d": [("{:.2f}".format(t)).rstrip('0').rstrip('.')]})
   time.sleep(t)
 ${divider_comment_stop.replace('%%','global_sleep')}`;
 
@@ -238,7 +230,7 @@ Blockly.Python['beep_buzzer'] = function(block) {
 `${divider_comment_start.replace('%%','global_buzzer')}
 def buzzer(t,block_id):
   log.info("buzzer function called")
-  debugLogEntry(block_id,{"t": "blockly.debug.buzzer", "d": ["{:.2f}".format(t)]})
+  debugLogEntry(block_id,{"t": "blockly.debug.buzzer", "d": [("{:.2f}".format(t)).rstrip('0').rstrip('.')]})
   gpios.buzzer(t*1000)
 ${divider_comment_stop.replace('%%','global_buzzer')}`;
 
@@ -319,7 +311,7 @@ ${divider_comment_stop.replace('%%','global_getID_function')}`;
   return ['my_unique_id', Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python.addReservedWords('simple_read_wrapper');
+Blockly.Python.addReservedWords('simple_read,ant,readTime,power,subprocess,reader,antenna,ret,power_object,reader_semaphore,threading,BoundedSemaphore');
 Blockly.Python['simple_read'] = function(block) {
   var number_time = block.getFieldValue('time')*1000;
   var checkbox_ant_1 = block.getFieldValue('ant_1') == 'TRUE';
@@ -327,23 +319,34 @@ Blockly.Python['simple_read'] = function(block) {
   var checkbox_ant_3 = block.getFieldValue('ant_3') == 'TRUE';
   var checkbox_ant_4 = block.getFieldValue('ant_4') == 'TRUE';
   var number_power = block.getFieldValue('power')*100;
+  var antennas_string = ((checkbox_ant_1?'1,':'')+(checkbox_ant_2?'2,':'')+(checkbox_ant_3?'3,':'')+(checkbox_ant_4?'4,':'')).slice(0, -1);
   
   importDebugLogDependancies(block);
-  Blockly.Python.definitions_['global_reader_init'] = reader_init;
-  Blockly.Python.definitions_['global_simple_read'] = simple_read;
-
-  var antennas_string = ((checkbox_ant_1?'1,':'')+(checkbox_ant_2?'2,':'')+(checkbox_ant_3?'3,':'')+(checkbox_ant_4?'4,':'')).slice(0, -1);
-
-Blockly.Python.definitions_['simple_read_wrapper'] = 
-`${divider_comment_start.replace('%%','simple_read_wrapper')}
-def simple_read_wrapper(ant,readTime,power,block_id):
-  log.info("simple_read_wrapper function called")
-  ret = simple_read(ant,readTime,power)
+  Blockly.Python.definitions_['import_mercury'] = import_mercury;
+  Blockly.Python.definitions_['import_threading'] = import_threading;
+  Blockly.Python.definitions_['global_simple_read'] = 
+`${divider_comment_start.replace('%%','simple_read')}
+import subprocess
+reader = mercury.Reader("tmr:///dev/ttyS1")
+reader_semaphore = threading.BoundedSemaphore()
+def simple_read(ant,readTime,power,block_id):
+  log.info("simple_read function called")
+  reader_semaphore.acquire()
+  reader.set_read_plan(ant, "GEN2")
+  reader.set_region(str(subprocess.check_output(['uci','get','reader.main.region']))[2:-3])
+  reader.set_gen2_q(int(str(subprocess.check_output(['uci','get','reader.main.Q_dynamic']))[2:-3]),int(str(subprocess.check_output(['uci','get','reader.main.Q_value']))[2:-3]))
+  power_object = []
+  for antenna in ant:
+    power_object.append((antenna,power))
+  reader.set_read_powers(power_object)
+  ret = list(map(lambda t: t.epc.decode('utf-8'), reader.read(readTime)))
+  reader_semaphore.release()
   debugLogEntry(block_id,"blockly.debug.simple_read",ret)
+  log.info("simple_read function ended")
   return ret
-${divider_comment_stop.replace('%%','simple_read_wrapper')}`;
+  ${divider_comment_stop.replace('%%','simple_read')}`;
 
-  return [Blockly.Python.injectId(`simple_read_wrapper([${antennas_string}],${number_time},${number_power},%1)`,block), Blockly.Python.ORDER_NONE];
+  return [Blockly.Python.injectId(`simple_read([${antennas_string}],${number_time},${number_power},%1)`,block), Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python.addReservedWords('autonomousHandle,AutonomousThread');
@@ -359,57 +362,81 @@ Blockly.Python['autonomous_read'] = function(block) {
   var antennas_string = ((checkbox_ant_1?'1,':'')+(checkbox_ant_2?'2,':'')+(checkbox_ant_3?'3,':'')+(checkbox_ant_4?'4,':'')).slice(0, -1);
 
   importDebugLogDependancies(block);
-  Blockly.Python.definitions_['import_threading'] = 
-`${divider_comment_start.replace('%%','import_threading')}
-import threading
-${divider_comment_stop.replace('%%','import_threading')}`;
-  
-  Blockly.Python.definitions_['global_reader_init'] = reader_init;
+  Blockly.Python.definitions_['import_threading'] = import_threading;
+  Blockly.Python.definitions_['import_mercury'] = import_mercury;
 
   var code = 
 `${divider_comment_start.replace('%%','autonomous_read %1')}
 class AutonomousThread(threading.Thread):
-  reader_object = None
-  ant = None
-  power = None
-  def __init__(self, reader_object):
-    self.reader_object = reader_object
+  reader = None
+  startFlag = threading.Event()
+  def __init__(self, ant, power):
+    self.startFlag.clear()
     threading.Thread.__init__(self)
+    self.reader = mercury.Reader("tmr:///dev/ttyS1")
+    self.reader.set_read_plan(ant, "GEN2")
+    self.reader.set_region(str(subprocess.check_output(['uci','get','reader.main.region']))[2:-3])
+    self.reader.set_gen2_q(int(str(subprocess.check_output(['uci','get','reader.main.Q_dynamic']))[2:-3]),int(str(subprocess.check_output(['uci','get','reader.main.Q_value']))[2:-3]))
+    power_object = []
+    for antenna in ant:
+      power_object.append((antenna,power))
+    self.reader.set_read_powers(power_object)
+    self.start()
 
   def run(self):
     try:
-      reader = mercury.Reader("tmr:///dev/ttyS1")
-      reader.set_read_plan(self.ant, "GEN2")
-      reader.set_region(str(subprocess.check_output(['uci','get','reader.main.region']))[2:-3])
-      reader.set_gen2_q(int(str(subprocess.check_output(['uci','get','reader.main.Q_dynamic']))[2:-3]),int(str(subprocess.check_output(['uci','get','reader.main.Q_value']))[2:-3]))
-      power_object = []
-      for antenna in self.ant:
-        power_object.append((antenna,self.power))
-      reader.set_read_powers(power_object)
 ${globalizeWorkspaceVariables(block,'      ')}\
       while True:
-        log.info("autonomous_cb function called")
-        raw_tags = reader.read(800)
-        ${variable_read_tag} = list(map(lambda t: t.epc.decode('utf-8'), raw_tags))
-        if len(${variable_read_tag}):
-          log.info("statements_callback called")
+        if self.startFlag.wait(1):
+          log.info("autonomous_cb function called")
+          ${variable_read_tag} = list(map(lambda t: t.epc.decode('utf-8'), self.reader.read(800)))
           debugLogEntry(%1,"blockly.debug.autonomous_read",${variable_read_tag})
 ${statements_callback}\
-          log.info("statements_callback ended")
-        log.info("autonomous_cb function ended")
+          log.info("autonomous_cb function ended")
     except Exception:
       sys.excepthook(*sys.exc_info())
 
 log.info("autonomous_cb init code")
-autonomousHandle = AutonomousThread(reader)
-autonomousHandle.ant = [${antennas_string}]
-autonomousHandle.power = ${number_power}
-autonomousHandle.start()
+autonomousHandle = AutonomousThread([${antennas_string}],${number_power})
 log.info("autonomous_cb init ended")
 ${divider_comment_stop.replace('%%','autonomous_read %1')}`;
 
   return Blockly.Python.injectId(code,block);
 };
+
+Blockly.Python.addReservedWords('global_autonomous_start');
+Blockly.Python['autonomous_start'] = function(block) {
+  importDebugLogDependancies(block);
+
+  Blockly.Python.definitions_['global_autonomous_start'] = 
+`${divider_comment_start.replace('%%','global_autonomous_start')}
+def global_autonomous_start(block_id):
+  log.info("autonomous start")
+  autonomousHandle.startFlag.set()
+  debugLogEntry(block_id,{"t": "blockly.debug.autonomous_start"})
+${divider_comment_stop.replace('%%','global_autonomous_start')}`;
+
+  return Blockly.Python.injectId('global_autonomous_start(%1)\n',block);
+};
+
+Blockly.Python.addReservedWords('global_autonomous_stop');
+Blockly.Python['autonomous_stop'] = function(block) {
+  importDebugLogDependancies(block);
+
+  Blockly.Python.definitions_['global_autonomous_stop'] = 
+`${divider_comment_start.replace('%%','global_autonomous_stop')}
+def global_autonomous_stop(block_id):
+  log.info("autonomous stop")
+  autonomousHandle.startFlag.clear()
+  debugLogEntry(block_id,{"t": "blockly.debug.autonomous_stop"})
+${divider_comment_stop.replace('%%','global_autonomous_stop')}`;
+
+  return Blockly.Python.injectId('global_autonomous_stop(%1)\n',block);
+}
+
+Blockly.Python['autonomous_state'] = function(block) {
+  return ['autonomousHandle.startFlag.is_set()', Blockly.Python.ORDER_NONE];
+}
 
 Blockly.Python.addReservedWords('program_start');
 Blockly.Python['program_start'] = function(block) {
@@ -470,11 +497,14 @@ Blockly.Python.addReservedWords('subprocess,global_restart_function');
 Blockly.Python['restart_app'] = function(block) {
   importDebugLogDependancies(block);
 
+  Blockly.Python.definitions_['import_time'] = import_time;
   Blockly.Python.definitions_['global_restart_function'] = 
 `${divider_comment_start.replace('%%','global_restart_function')}
 def global_restart_function(block_id):
   debugLogEntry(block_id,{"t": "blockly.debug.restart_app"})
   subprocess.run(['/etc/init.d/inteligent','restart'])
+  while True:
+    time.sleep(1)
 ${divider_comment_stop.replace('%%','global_restart_function')}`;
 
   return Blockly.Python.injectId('global_restart_function(%1)\n',block);

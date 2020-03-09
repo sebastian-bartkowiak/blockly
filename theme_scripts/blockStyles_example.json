@@ -1,9 +1,11 @@
 {
-  "list_blocks":"#708FCC",
-  "logic_blocks":"#DC7B63",
-  "loop_blocks":"#FFB340",
-  "math_blocks":"#46964B",
-  "text_blocks":"#993D99",
-  "variable_blocks":"#686BAC",
-  "erefide_blocks":"#4FAAC6"
+  "logic_blocks":     "#ee1d24",
+  "loop_blocks":      "#f8941d",
+  "math_blocks":      "#947f3a",
+  "text_blocks":      "#8cc63f",
+  "list_blocks":      "#00a550",
+  "rfid_blocks":      "#56787d",
+  "gpios_blocks":     "#00aeef",
+  "misc_blocks":      "#92278e",
+  "variable_blocks":  "#4979bd"
 }

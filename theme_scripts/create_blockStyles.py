@@ -43,6 +43,7 @@ import sys
 
 HSV_SATURATION = .45
 BRIGHTNESS_VAL = .65 * 255
+INITIAL_LIGHT_FACTOR = .15
 LIGHT_FACTOR = .6
 DARK_FACTOR = .2
 
@@ -173,7 +174,7 @@ def createColourMap():
    colourObj = {}
    for key in jsonData.keys():
       rgbVal = findRgbVal(jsonData[key])
-      colourObj[key] = findOtherColours(rgbVal)
+      colourObj[key] = findOtherColours(lighten(rgbVal,INITIAL_LIGHT_FACTOR))
       f= open("new_" + fileName,"w+")
       f.write(json.dumps(colourObj, indent=2, sort_keys=True))
       f.close()

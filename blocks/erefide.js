@@ -16,7 +16,7 @@ Blockly.defineBlocksWithJsonArray([{
   "inputsInline": true,
   "previousStatement": null,
   "nextStatement": null,
-  "style": "erefide_blocks",
+  "style": "gpios_blocks",
   "tooltip": "%{BKY_EREFIDE_SET_GPO_TOOLTIP}",
   "helpUrl": "%{BKY_EREFIDE_SET_GPO_HELPURL}"
 },
@@ -31,7 +31,7 @@ Blockly.defineBlocksWithJsonArray([{
     }
   ],
   "output": "erefide_gpio_state_type",
-  "style": "erefide_blocks",
+  "style": "gpios_blocks",
   "tooltip": "%{BKY_EREFIDE_READ_GPI_TOOLTIP}",
   "helpUrl": "%{BKY_EREFIDE_READ_GPI_HELPURL}"
 },
@@ -46,7 +46,7 @@ Blockly.defineBlocksWithJsonArray([{
     }
   ],
   "output": "erefide_gpio_state_type",
-  "style": "erefide_blocks",
+  "style": "gpios_blocks",
   "tooltip": "%{BKY_EREFIDE_READ_GPO_TOOLTIP}",
   "helpUrl": "%{BKY_EREFIDE_READ_GPO_HELPURL}"
 },
@@ -118,7 +118,7 @@ Blockly.defineBlocksWithJsonArray([{
     }
   ],
   "inputsInline": true,
-  "style": "erefide_blocks",
+  "style": "gpios_blocks",
   "tooltip": "%{BKY_EREFIDE_GPI_TRIGGER_TOOLTIP}",
   "helpUrl": "%{BKY_EREFIDE_GPI_TRIGGER_HELPURL}"
 },
@@ -150,7 +150,7 @@ Blockly.defineBlocksWithJsonArray([{
     }
   ],
   "output": "erefide_input_type",
-  "style": "erefide_blocks",
+  "style": "gpios_blocks",
   "tooltip": "%{BKY_EREFIDE_GPI_PICKER_TOOLTIP}",
   "helpUrl": "%{BKY_EREFIDE_GPI_PICKER_HELPURL}"
 },
@@ -182,7 +182,7 @@ Blockly.defineBlocksWithJsonArray([{
     }
   ],
   "output": "erefide_output_type",
-  "style": "erefide_blocks",
+  "style": "gpios_blocks",
   "tooltip": "%{BKY_EREFIDE_GPO_PICKER_TOOLTIP}",
   "helpUrl": "%{BKY_EREFIDE_GPO_PICKER_HELPURL}"
 },
@@ -206,7 +206,7 @@ Blockly.defineBlocksWithJsonArray([{
     }
   ],
   "output": "erefide_gpio_state_type",
-  "style": "erefide_blocks",
+  "style": "gpios_blocks",
   "tooltip": "%{BKY_EREFIDE_GPIO_STATE_PICKER_TOOLTIP}",
   "helpUrl": "%{BKY_EREFIDE_GPIO_STATE_PICKER_HELPURL}"
 },
@@ -226,7 +226,7 @@ Blockly.defineBlocksWithJsonArray([{
   "inputsInline": true,
   "previousStatement": null,
   "nextStatement": null,
-  "style": "erefide_blocks",
+  "style": "gpios_blocks",
   "tooltip": "%{BKY_EREFIDE_BUZZER_TOOLTIP}",
   "helpUrl": "%{BKY_EREFIDE_BUZZER_HELPURL}"
 },
@@ -247,7 +247,7 @@ Blockly.defineBlocksWithJsonArray([{
   "inputsInline": true,
   "previousStatement": null,
   "nextStatement": null,
-  "style": "erefide_blocks",
+  "style": "misc_blocks",
   "tooltip": "%{BKY_EREFIDE_POST_DATA_TOOLTIP}",
   "helpUrl": "%{BKY_EREFIDE_POST_DATA_HELPURL}"
 },
@@ -303,7 +303,7 @@ Blockly.defineBlocksWithJsonArray([{
   ],
   "inputsInline": false,
   "output": "Array",
-  "style": "erefide_blocks",
+  "style": "rfid_blocks",
   "tooltip": "%{BKY_EREFIDE_SIMPLE_READ_TOOLTIP}",
   "helpUrl": "%{BKY_EREFIDE_SIMPLE_READ_HELPURL}"
 },
@@ -367,7 +367,7 @@ Blockly.defineBlocksWithJsonArray([{
       "name": "callback"
     }
   ],
-  "style": "erefide_blocks",
+  "style": "rfid_blocks",
   "tooltip": "%{BKY_EREFIDE_AUTONOMOUS_READ_TOOLTIP}",
   "helpUrl": "%{BKY_EREFIDE_AUTONOMOUS_READ_HELPURL}"
 },
@@ -383,7 +383,7 @@ Blockly.defineBlocksWithJsonArray([{
       "name": "code"
     }
   ],
-  "style": "erefide_blocks",
+  "style": "misc_blocks",
   "tooltip": "%{BKY_EREFIDE_PROGRAM_START_TOOLTIP}",
   "helpUrl": "%{BKY_EREFIDE_PROGRAM_START_HELPURL}"
 },
@@ -420,7 +420,7 @@ Blockly.defineBlocksWithJsonArray([{
       "name": "code"
     }
   ],
-  "style": "erefide_blocks",
+  "style": "misc_blocks",
   "tooltip": "%{BKY_EREFIDE_CRON_TASK_TOOLTIP}",
   "helpUrl": "%{BKY_EREFIDE_CRON_TASK_HELPURL}"
 },
@@ -441,7 +441,7 @@ Blockly.defineBlocksWithJsonArray([{
       "name": "callback"
     }
   ],
-  "style": "erefide_blocks",
+  "style": "misc_blocks",
   "tooltip": "%{BKY_EREFIDE_ERROR_HANDLER_TOOLTIP}",
   "helpUrl": "%{BKY_EREFIDE_ERROR_HANDLER_HELPURL}"
 },
@@ -454,7 +454,48 @@ Blockly.defineBlocksWithJsonArray([{
     }
   ],
   "previousStatement": null,
-  "style": "erefide_blocks",
+  "style": "misc_blocks",
   "tooltip": "%{BKY_EREFIDE_RESTART_APP_TOOLTIP}",
   "helpUrl": "%{BKY_EREFIDE_RESTART_APP_HELPURL}"
+},
+{
+  "type": "autonomous_start",
+  "message0": "%{BKY_EREFIDE_AUTONOMOUS_START}",
+  "args0": [
+    {
+      "type": "input_dummy"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "style": "rfid_blocks",
+  "tooltip": "%{BKY_EREFIDE_AUTONOMOUS_START_TOOLTIP}",
+  "helpUrl": "%{BKY_EREFIDE_AUTONOMOUS_START_HELPURL}"
+},
+{
+  "type": "autonomous_stop",
+  "message0": "%{BKY_EREFIDE_AUTONOMOUS_STOP}",
+  "args0": [
+    {
+      "type": "input_dummy"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "style": "rfid_blocks",
+  "tooltip": "%{BKY_EREFIDE_AUTONOMOUS_STOP_TOOLTIP}",
+  "helpUrl": "%{BKY_EREFIDE_AUTONOMOUS_STOP_HELPURL}"
+},
+{
+  "type": "autonomous_state",
+  "message0": "%{BKY_EREFIDE_AUTONOMOUS_STATE}",
+  "args0": [
+    {
+      "type": "input_dummy"
+    }
+  ],
+  "output": "Boolean",
+  "style": "rfid_blocks",
+  "tooltip": "%{BKY_EREFIDE_AUTONOMOUS_STATE_TOOLTIP}",
+  "helpUrl": "%{BKY_EREFIDE_AUTONOMOUS_STATE_HELPURL}"
 }]);
