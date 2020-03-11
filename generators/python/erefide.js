@@ -344,7 +344,7 @@ def simple_read(ant,readTime,power,block_id):
   debugLogEntry(block_id,"blockly.debug.simple_read",ret)
   log.info("simple_read function ended")
   return ret
-  ${divider_comment_stop.replace('%%','simple_read')}`;
+${divider_comment_stop.replace('%%','simple_read')}`;
 
   return [Blockly.Python.injectId(`simple_read([${antennas_string}],${number_time},${number_power},%1)`,block), Blockly.Python.ORDER_NONE];
 };
@@ -389,10 +389,11 @@ ${globalizeWorkspaceVariables(block,'      ')}\
       while True:
         if self.startFlag.wait(1):
           log.info("autonomous_cb function called")
-          ${variable_read_tag} = list(map(lambda t: t.epc.decode('utf-8'), self.reader.read(800)))
+          ${variable_read_tag} = list(map(lambda t: t.epc.decode('utf-8'), self.reader.read(750)))
           debugLogEntry(%1,"blockly.debug.autonomous_read",${variable_read_tag})
 ${statements_callback}\
           log.info("autonomous_cb function ended")
+          time.sleep(0.25)
     except Exception:
       sys.excepthook(*sys.exc_info())
 
