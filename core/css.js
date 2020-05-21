@@ -597,7 +597,7 @@ Blockly.Css.CONTENT = [
   '.blocklyWidgetDiv .goog-option-selected .goog-menuitem-icon,',
   '.blocklyDropDownDiv .goog-option-selected .goog-menuitem-checkbox,',
   '.blocklyDropDownDiv .goog-option-selected .goog-menuitem-icon {',
-    'background: url(<<<PATH>>>/sprites.png) no-repeat -48px -16px;',
+    'background: url(<<<PATH>>>/img/sprites.png) no-repeat -48px -16px;',
   '}',
 
   /* Copied from: goog/css/menu.css */
