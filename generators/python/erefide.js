@@ -46,7 +46,7 @@ const importDebugLogDependancies = (block)=>{
 import logging
 from logging.handlers import TimedRotatingFileHandler
 debugLog = logging.getLogger('debugLog')
-debugLog.addHandler(TimedRotatingFileHandler("/etc/readerapp/inteligent-debug.log",interval=1,when='midnight',backupCount=1,utc=True))
+debugLog.addHandler(TimedRotatingFileHandler("/etc/readerapp/inteligent-debug.log",interval=1,when='midnight',backupCount=0,utc=True))
 debugLog.setLevel(10)
 def debugLogEntry(block_id,text,comment=False):
   if isinstance(text, str):
@@ -159,6 +159,7 @@ Blockly.Python['gpi_trigger'] = function(block) {
   dropdown_edge = dropdown_edge==0?'INT_RISING':(dropdown_edge==1?'INT_FALLING':'INT_BOTH');
 
   importDebugLogDependancies(block);
+  Blockly.Python.definitions_['import_threading'] = import_threading;
   Blockly.Python.definitions_['global_ErefideGPIO'] = gpios_init;
 
   var code = 
@@ -375,7 +376,7 @@ Blockly.Python['autonomous_read'] = function(block) {
   var checkbox_ant_3 = block.getFieldValue('ant_3') == 'TRUE';
   var checkbox_ant_4 = block.getFieldValue('ant_4') == 'TRUE';
   var variable_read_tag = Blockly.Python.variableDB_.getName(block.getFieldValue('read_tag'), Blockly.Variables.NAME_TYPE);
-  var statements_callback = Blockly.Python.prefixLines(Blockly.Python.statementToCode(block, 'callback'),'        ');
+  var statements_callback = Blockly.Python.prefixLines(Blockly.Python.statementToCode(block, 'callback'),'          ');
   var number_power = block.getFieldValue('power')*100;
 
   var antennas_string = ((checkbox_ant_1?'1,':'')+(checkbox_ant_2?'2,':'')+(checkbox_ant_3?'3,':'')+(checkbox_ant_4?'4,':'')).slice(0, -1);
@@ -428,9 +429,12 @@ ${globalizeWorkspaceVariables(block,'      ')}\
       while True:
         if self.startFlag.wait(1):
           log.info("autonomous_cb function called")
-          ${variable_read_tag} = list(map(lambda t: t.epc.decode('utf-8'), self.reader.read(750)))
-          debugLogEntry(%1,"blockly.debug.autonomous_read",${variable_read_tag})
+          try:
+            ${variable_read_tag} = list(map(lambda t: t.epc.decode('utf-8'), self.reader.read(750)))
+            debugLogEntry(%1,"blockly.debug.autonomous_read",${variable_read_tag})
 ${statements_callback}\
+          except Exception:
+            sys.excepthook(*sys.exc_info())
           log.info("autonomous_cb function ended")
           time.sleep(0.25)
     except Exception:
