@@ -1,3 +1,12 @@
+goog.provide('Blockly.Constants.Erefide');
+
+goog.require('Blockly');
+goog.require('Blockly.Blocks');
+goog.require('Blockly.FieldDropdown');
+goog.require('Blockly.FieldLabel');
+goog.require('Blockly.FieldNumber');
+goog.require('Blockly.FieldVariable');
+
 Blockly.defineBlocksWithJsonArray([{
   "type": "set_gpo",
   "message0": "%{BKY_EREFIDE_SET_GPO}",
@@ -299,13 +308,39 @@ Blockly.defineBlocksWithJsonArray([{
       "min": -10,
       "max": 31.5,
       "precision": 0.1
+    },
+    {
+      "type": "input_dummy",
+    },
+    {
+      "type": "field_dropdown",
+      "name": "epc_filter_options",
+      "options": [
+        [
+          "%{BKY_EREFIDE_READ_FILTER_NONE}",
+          "none"
+        ],
+        [
+          "%{BKY_EREFIDE_READ_FILTER_EQUAL}",
+          "equal"
+        ],
+        [
+          "%{BKY_EREFIDE_READ_FILTER_STARTSWITH}",
+          "startswith"
+        ],
+        [
+          "%{BKY_EREFIDE_READ_FILTER_ENDSWITH}",
+          "endswith"
+        ]
+      ]
     }
   ],
   "inputsInline": false,
   "output": "Array",
   "style": "rfid_blocks",
   "tooltip": "%{BKY_EREFIDE_SIMPLE_READ_TOOLTIP}",
-  "helpUrl": "%{BKY_EREFIDE_SIMPLE_READ_HELPURL}"
+  "helpUrl": "%{BKY_EREFIDE_SIMPLE_READ_HELPURL}",
+  "mutator": "erefide_read_filter_mutator"
 },
 {
   "type": "autonomous_read",
@@ -360,7 +395,32 @@ Blockly.defineBlocksWithJsonArray([{
       "type": "input_dummy"
     },
     {
+      "type": "field_dropdown",
+      "name": "epc_filter_options",
+      "options": [
+        [
+          "%{BKY_EREFIDE_READ_FILTER_NONE}",
+          "none"
+        ],
+        [
+          "%{BKY_EREFIDE_READ_FILTER_EQUAL}",
+          "equal"
+        ],
+        [
+          "%{BKY_EREFIDE_READ_FILTER_STARTSWITH}",
+          "startswith"
+        ],
+        [
+          "%{BKY_EREFIDE_READ_FILTER_ENDSWITH}",
+          "endswith"
+        ]
+      ]
+    },
+    {
       "type": "input_dummy"
+    },
+    {
+      "type": "input_dummy",
     },
     {
       "type": "input_statement",
@@ -369,7 +429,8 @@ Blockly.defineBlocksWithJsonArray([{
   ],
   "style": "rfid_blocks",
   "tooltip": "%{BKY_EREFIDE_AUTONOMOUS_READ_TOOLTIP}",
-  "helpUrl": "%{BKY_EREFIDE_AUTONOMOUS_READ_HELPURL}"
+  "helpUrl": "%{BKY_EREFIDE_AUTONOMOUS_READ_HELPURL}",
+  "mutator": "erefide_read_filter_mutator"
 },
 {
   "type": "program_start",
@@ -499,3 +560,35 @@ Blockly.defineBlocksWithJsonArray([{
   "tooltip": "%{BKY_EREFIDE_AUTONOMOUS_STATE_TOOLTIP}",
   "helpUrl": "%{BKY_EREFIDE_AUTONOMOUS_STATE_HELPURL}"
 }]);
+
+Blockly.Constants.Erefide.EREFIDE_READ_FILTER_MUTATOR_MIXIN = {
+  mutationToDom: function() {
+    var container = Blockly.utils.xml.createElement('mutation');
+    container.setAttribute('epc_filter_present', this.getFieldValue('epc_filter_options') != 'none');
+    return container;
+  },
+
+  domToMutation: function(xmlElement) {
+    this.updateShape_(xmlElement.getAttribute('epc_filter_present') == 'true');
+  },
+
+  updateShape_: function(should_have_input) {
+    const input_idx = this.type === 'simple_read'?4:5;
+    const has_input = typeof this.inputList[input_idx].fieldRow[2] !== 'undefined';
+    if (should_have_input) {
+      if (!has_input) {
+        this.inputList[input_idx].appendField(new Blockly.FieldTextInput(), 'epc_filter_value');
+      }
+    } else if (has_input) {
+      this.inputList[input_idx].removeField('epc_filter_value');
+    }
+  }
+};
+
+Blockly.Constants.Erefide.EREFIDE_READ_FILTER_MUTATOR_EXTENSION = function() {
+  this.getField('epc_filter_options').setValidator(function(option) {
+    this.getSourceBlock().updateShape_(option != 'none');
+  });
+};
+
+Blockly.Extensions.registerMutator('erefide_read_filter_mutator', Blockly.Constants.Erefide.EREFIDE_READ_FILTER_MUTATOR_MIXIN, Blockly.Constants.Erefide.EREFIDE_READ_FILTER_MUTATOR_EXTENSION);

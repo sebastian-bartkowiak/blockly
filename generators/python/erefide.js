@@ -320,7 +320,26 @@ Blockly.Python['simple_read'] = function(block) {
   var checkbox_ant_4 = block.getFieldValue('ant_4') == 'TRUE';
   var number_power = block.getFieldValue('power')*100;
   var antennas_string = ((checkbox_ant_1?'1,':'')+(checkbox_ant_2?'2,':'')+(checkbox_ant_3?'3,':'')+(checkbox_ant_4?'4,':'')).slice(0, -1);
-  
+  var epc_filter_mode = block.getFieldValue("epc_filter_options");
+  var epc_filter_value = block.getFieldValue("epc_filter_value");
+  var epc_filter_code = '';
+  if(epc_filter_value !== null){
+    epc_filter_value = epc_filter_value.toUpperCase();
+    const totalBitLen = 96;
+    const filterBitLen = epc_filter_value.length*4;
+    switch(epc_filter_mode){
+      case 'equal': {
+        epc_filter_code = `, epc_target={'epc':b'${epc_filter_value}', 'bit':0, 'len':${totalBitLen}}`;
+      } break;
+      case 'startswith': {
+        epc_filter_code = `, epc_target={'epc':b'${epc_filter_value}', 'bit':0, 'len':${filterBitLen}}`;
+      } break;
+      case 'endswith': {
+        epc_filter_code = `, epc_target={'epc':b'${epc_filter_value}', 'bit':${totalBitLen-filterBitLen}, 'len':${filterBitLen}}`;
+      } break;
+    }
+  }
+
   importDebugLogDependancies(block);
   Blockly.Python.definitions_['import_mercury'] = import_mercury;
   Blockly.Python.definitions_['import_threading'] = import_threading;
@@ -332,7 +351,7 @@ reader_semaphore = threading.BoundedSemaphore()
 def simple_read(ant,readTime,power,block_id):
   log.info("simple_read function called")
   reader_semaphore.acquire()
-  reader.set_read_plan(ant, "GEN2")
+  reader.set_read_plan(ant, "GEN2"${epc_filter_code})
   reader.set_region(str(subprocess.check_output(['uci','get','reader.main.region']))[2:-3])
   reader.set_gen2_q(int(str(subprocess.check_output(['uci','get','reader.main.Q_dynamic']))[2:-3]),int(str(subprocess.check_output(['uci','get','reader.main.Q_value']))[2:-3]))
   power_object = []
@@ -361,6 +380,26 @@ Blockly.Python['autonomous_read'] = function(block) {
 
   var antennas_string = ((checkbox_ant_1?'1,':'')+(checkbox_ant_2?'2,':'')+(checkbox_ant_3?'3,':'')+(checkbox_ant_4?'4,':'')).slice(0, -1);
 
+  var epc_filter_mode = block.getFieldValue("epc_filter_options");
+  var epc_filter_value = block.getFieldValue("epc_filter_value");
+  var epc_filter_code = '';
+  if(epc_filter_value !== null){
+    epc_filter_value = epc_filter_value.toUpperCase();
+    const totalBitLen = 96;
+    const filterBitLen = epc_filter_value.length*4;
+    switch(epc_filter_mode){
+      case 'equal': {
+        epc_filter_code = `, epc_target={'epc':b'${epc_filter_value}', 'bit':0, 'len':${totalBitLen}}`;
+      } break;
+      case 'startswith': {
+        epc_filter_code = `, epc_target={'epc':b'${epc_filter_value}', 'bit':0, 'len':${filterBitLen}}`;
+      } break;
+      case 'endswith': {
+        epc_filter_code = `, epc_target={'epc':b'${epc_filter_value}', 'bit':${totalBitLen-filterBitLen}, 'len':${filterBitLen}}`;
+      } break;
+    }
+  }
+
   importDebugLogDependancies(block);
   Blockly.Python.definitions_['import_threading'] = import_threading;
   Blockly.Python.definitions_['import_mercury'] = import_mercury;
@@ -374,7 +413,7 @@ class AutonomousThread(threading.Thread):
     self.startFlag.clear()
     threading.Thread.__init__(self)
     self.reader = mercury.Reader("tmr:///dev/ttyS1")
-    self.reader.set_read_plan(ant, "GEN2")
+    self.reader.set_read_plan(ant, "GEN2"${epc_filter_code})
     self.reader.set_region(str(subprocess.check_output(['uci','get','reader.main.region']))[2:-3])
     self.reader.set_gen2_q(int(str(subprocess.check_output(['uci','get','reader.main.Q_dynamic']))[2:-3]),int(str(subprocess.check_output(['uci','get','reader.main.Q_value']))[2:-3]))
     power_object = []
